@@ -1,12 +1,15 @@
 <script lang="ts">
-    import StartAndStop from './utils/StartAndStop.svelte'
+    import StartAndStop from './utils/Play.svelte'
     import Bpm from './utils/Bpm.svelte'
+    import TimeSignature from './utils/TimeSignature.svelte'
+
 
 </script>
 
 <div id="header">
     <Bpm />
     <StartAndStop />
+    <TimeSignature />
 </div>
 
 

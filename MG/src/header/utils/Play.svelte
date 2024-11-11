@@ -3,6 +3,7 @@
 
     const play = document.querySelector('#play')
     const stop = document.querySelector('#stop')
+    const record = document.querySelector('#record') // TODO : MIDI 호환
 
     const controller = document.querySelector('#container')
 
@@ -12,7 +13,11 @@
 
 </script>
 
-<div id="StartAndStop">
+<div id="Play">
+    <div id="record">
+        <div id="circle"></div>
+    </div>
+
     <div id="play">
         <div class="bar"></div>
         <div class="bar"></div>
@@ -25,7 +30,7 @@
 
 
 <style>
-    #StartAndStop {
+    #Play {
         width: 125px;
         height: 85%;
 
@@ -34,7 +39,7 @@
         align-content: center;
     }
 
-    #StartAndStop > div {
+    #Play > div {
         display: inline-block;
         justify-content: space-evenly;
         align-content: center;
@@ -67,5 +72,14 @@
         border-bottom: 15px solid transparent;
         border-top: 15px solid transparent;
         border-left: 25px solid #cccccc;
+    }
+
+    #circle {
+        width: 25px;
+        height: 25px;
+
+        background: #cccccc;
+
+        border-radius: 50%;
     }
 </style>
