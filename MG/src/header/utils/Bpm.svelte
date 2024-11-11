@@ -1,6 +1,12 @@
 <script lang="ts">
     import { BPM } from '../../store.js'
 
+    const value = document.querySelector('#BpmValue') as HTMLInputElement
+
+    value.ondblclick = () => {
+        value.focus()
+    }
+
     const upBpm = () => {
         $BPM++
     }
@@ -13,7 +19,7 @@
 
 <div id="Bpm">
     <button id="minus" on:click={downBpm}></button>
-    <div id="BpmValue">{$BPM}</div>
+    <input id="BpmValue" value="{$BPM}" onclick="upBpm()" />
     <button id="plus" on:click={upBpm}></button>
 </div>
 
@@ -26,8 +32,11 @@
     }
 
     #BpmValue {
-        width: 30px;
-        height: 20px;
+        width: 50%;
+        height: 100%;
+
+        border: transparent;
+        background: transparent;
 
         text-align: center;
     }
@@ -39,10 +48,6 @@
         display: inline-flex;
         justify-content: space-between;
         align-items: center;
-    }
-
-    #Bpm > div {
-        display: inline-block;
     }
 
 </style>
