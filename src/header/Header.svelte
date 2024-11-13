@@ -22,7 +22,6 @@
 
         display: inline-flex;
         flex-direction: row;
-        flex-wrap: wrap;
 
         position: fixed;
 

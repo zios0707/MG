@@ -1,12 +1,9 @@
 <script lang="ts">
-
-
-
+    import ChannelBar from './parts/channel/ChannelBar.svelte'
 </script>
 
 <div id="workspace">
-
-
+    <ChannelBar/>
 </div>
 
 
