@@ -15,7 +15,5 @@
     #container {
         height: 100vh;
         width: 100vw;
-
-        background: #999999;
     }
 </style>
