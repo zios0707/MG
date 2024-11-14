@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import { isPlaying } from '../../store.js'
 
     const play = document.querySelector('#play')

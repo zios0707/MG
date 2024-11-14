@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import ChannelBar from './parts/channel/ChannelBar.svelte'
 </script>
 

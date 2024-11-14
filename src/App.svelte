@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import Header from './header/Header.svelte'
     import Workspace from './workspace/Workspace.svelte'
 </script>

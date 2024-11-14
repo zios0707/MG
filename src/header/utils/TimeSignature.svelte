@@ -1,9 +1,9 @@
-<script lang="ts">
-    import { Tick } from '../../store.js'
+<script>
+    import { tick } from '../../store.js'
 </script>
 
 <div id="Time">
-    {$Tick}
+    {$tick}
 </div>
 
 <style>

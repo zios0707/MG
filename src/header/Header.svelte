@@ -1,4 +1,4 @@
-<script lang="ts">
+<script>
     import StartAndStop from './utils/Play.svelte'
     import Bpm from './utils/Bpm.svelte'
     import TimeSignature from './utils/TimeSignature.svelte'

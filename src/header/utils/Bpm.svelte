@@ -1,9 +1,9 @@
-<script lang="ts">
+<script>
     import { onMount } from 'svelte'
-    import { BPM } from '../../store.js'
+    import { bpm } from '../../store.js'
 
     onMount(() => {
-        const value = document.querySelector('#BpmValue') as HTMLInputElement
+        const value = document.querySelector('#BpmValue')
         let preValue = value.value
 
         const inputOnlyNumber = (e) => {
@@ -14,25 +14,25 @@
             }else {
                 preValue = parseFloat(value.value)
             }
-            $BPM = preValue
+            $bpm = preValue
         }
 
-        value?.addEventListener('blur', inputOnlyNumber)
+        value.addEventListener('blur', inputOnlyNumber)
 
         return () => {
-            value?.removeEventListener('blur', inputOnlyNumber)
+            value.removeEventListener('blur', inputOnlyNumber)
         }
     })
 
-    const upBpm = () => {$BPM++}
-    const downBpm = () => {$BPM--}
+    const upBpm = () => {$bpm++}
+    const downBpm = () => {$bpm--}
 
     // TODO: BPM 클릭하고 마우스 휠로 조지면 바뀌도록 (마우스를 움직여서 구현하게 할려 했는데 아마도 안됨)
 </script>
 
 <div id="Bpm">
     <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
-    <input id="BpmValue" readonly bind:value="{$BPM}"
+    <input id="BpmValue" readonly bind:value="{$bpm}"
     onclick={(e) => {e.target.blur()}}
     ondblclick={(e) => {e.target.focus(); e.target.readOnly = false }} />
     <button id="plus" onclick={upBpm} aria-label="Increase BPM"></button>
