@@ -3,6 +3,7 @@
     let preValue
 
     function inputEvent(e) {
+        e.target.value = e.target.value.trim()
         if(preValue === undefined) preValue = e.target.value
 
 
