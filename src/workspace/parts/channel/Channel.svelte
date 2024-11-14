@@ -1,14 +1,27 @@
 <script>
-    import { channels } from '../../../store.js'
+    export let channel, iter, selected;
+    import { onMount, createEventDispatcher } from 'svelte';
 
-    export let channel, iter;
+    const dispatcher = createEventDispatcher();
+
+    function deleteChannel() {
+        dispatcher('delete', { value: channel.trackId})
+    }
+
+    function selectChannel() {
+        dispatcher('select', { value: channel})
+    }
+
+    onMount(() => {
+        if (selected) {
+            dispatcher
+        }
+    })
+
 </script>
 
-<div class="channel">
-    <button onclick={() => channels.update(list => {
-        list.find(i => i.trackId === channel.trackId).deleteId()
-        return list.filter((val) => val.trackId !== channel.trackId);
-    })}>X</button>
+<div class="channel" onclick={selectChannel}>
+    <button onclick={deleteChannel}>X</button>
     {#if channel}
         <div> {channel.trackId} </div>
         <div> {channel.name.replace('#', iter)} </div>

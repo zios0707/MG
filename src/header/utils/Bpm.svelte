@@ -1,31 +1,23 @@
-<script>
-    import { onMount } from 'svelte'
+<script lang="ts">
     import { bpm } from '../../store.js'
+    let preValue
 
-    onMount(() => {
-        const value = document.querySelector('#BpmValue')
-        let preValue = value.value
+    function inputEvent(e) {
+        if(preValue === undefined) preValue = e.target.value
 
-        const inputOnlyNumber = (e) => {
-            e.target.readOnly = true
 
-            if (!/^\d*$/.test(value.value) || value.value >= 1000 || value.value <= 0) {
-                value.value = preValue
-            }else {
-                preValue = parseFloat(value.value)
-            }
-            $bpm = preValue
+        if (!/^\d*$/.test(e.target.value) || e.target.value >= 1000 || e.target.value <= 0) {
+            e.target.value = preValue
+        }else {
+            preValue = parseFloat(e.target.value)
         }
 
-        value.addEventListener('blur', inputOnlyNumber)
+        e.target.readOnly = true
+        $bpm = preValue
+    }
 
-        return () => {
-            value.removeEventListener('blur', inputOnlyNumber)
-        }
-    })
-
-    const upBpm = () => {$bpm++}
-    const downBpm = () => {$bpm--}
+    const upBpm = () => {if ($bpm < 999) $bpm++}
+    const downBpm = () => {if (1 < $bpm) $bpm--}
 
     // TODO: BPM 클릭하고 마우스 휠로 조지면 바뀌도록 (마우스를 움직여서 구현하게 할려 했는데 아마도 안됨)
 </script>
@@ -34,7 +26,8 @@
     <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
     <input id="BpmValue" readonly bind:value="{$bpm}"
     onclick={(e) => {e.target.blur()}}
-    ondblclick={(e) => {e.target.focus(); e.target.readOnly = false }} />
+    ondblclick={(e) => {e.target.focus(); e.target.readOnly = false }}
+    onblur={(e) => {inputEvent(e)}}/>
     <button id="plus" onclick={upBpm} aria-label="Increase BPM"></button>
 </div>
 
