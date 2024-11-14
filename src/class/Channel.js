@@ -5,7 +5,7 @@ let ids = new Set();
 export default class Channel {
     constructor() {
         this.trackId = this.getNextId()
-        this.name = "#  default track" // 이름
+        this.name = "# default track" // 이름
         this.notes = [] // 유사 midi 파일
         this.volume = 100 // 음량 // 0 ~ 127
         this.muted = false // 뮤트 모드

@@ -37,10 +37,11 @@
 
 <style>
     #channels {
-        width: 120px; /* 122 */
-        height: 100%;
+        width: 120px; /* 125 */
 
-        border-right: black solid 2px;
+        border-top: #00000099 solid 5px;
+        border-right: #00000099 solid 5px;
+        border-bottom: #00000099 solid 5px;
 
         overflow: scroll;
 
