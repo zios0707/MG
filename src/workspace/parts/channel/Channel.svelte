@@ -12,15 +12,17 @@
         dispatcher('select', { value: channel})
     }
 
-    onMount(() => {
-        if (selected) {
-            dispatcher
-        }
-    })
-
+    function pickChannel(e) {
+        dispatcher('pick',
+            { value: {
+                iter: iter,
+                shifted: e.shiftKey
+            }}
+        )
+    }
 </script>
 
-<div class="channel" onclick={selectChannel}>
+<div class="channel" id={(selected) ? 'selected' : null} onclick={pickChannel} ondblclick={selectChannel}>
     <button onclick={deleteChannel}>X</button>
     {#if channel}
         <div> {channel.trackId} </div>
@@ -37,5 +39,10 @@
         margin-left: calc(10% - 3px);
 
         border: #000000cc solid 3px;
+    }
+
+    .channel#selected {
+
+        border: #00ffffcc solid 3px;
     }
 </style>

@@ -1,5 +1,7 @@
 <script>
     import { channel } from '../../../store.js'
+
+    // TODO mute나 solo 버튼 및 여러 구성요소 구현
 </script>
 
 <div id="info">
