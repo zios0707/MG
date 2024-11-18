@@ -26,7 +26,7 @@
 
 <style>
     #navigation {
-        height: 50px;
+        height: 35px;
         width: 200%;
 
         position: fixed;
@@ -35,7 +35,7 @@
     }
 
     #navigation > #container {
-        height: 50px;
+        height: 100%;
 
         margin-left: 165px;
 
@@ -44,7 +44,7 @@
 
     #block {
         width: 165px;
-        height: 50px;
+        height: 35px;
 
         z-index: 8;
 

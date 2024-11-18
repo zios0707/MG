@@ -6,16 +6,41 @@
     }
 
     onMount(() => {
+        // keyboard tracking set
         const target = document.querySelector('#keyboard')
 
         function trackingY() {
-            target.style.marginTop = `${-window.scrollY + 50}px`
+            target.style.marginTop = `${-window.scrollY + 35}px`
         }
 
         window.addEventListener('scroll', trackingY)
 
+        // show keyboard hint
+        const txtList = document.querySelectorAll('div > .txt')
+
+        function setReverse(event) {
+            const bg = getComputedStyle(event.target).backgroundColor
+            const hexBg = (event.target.parentNode.classList.contains('black')) ?
+                 '#222222' : '#dddddd'
+
+            event.target.style.color = hexBg
+        }
+
+        function revertReverse(event) {
+            event.target.style.color = 'transparent'
+        }
+
+        txtList.forEach(txt => {
+            txt.addEventListener('mouseover', setReverse)
+            txt.addEventListener('mouseout', revertReverse)
+        })
+
         return () => {
             window.removeEventListener('scroll', trackingY)
+            txtList.forEach(txt => {
+                txt.removeEventListener('mouseover', setReverse)
+                txt.removeEventListener('mouseout', revertReverse)
+            })
         }
     })
 
@@ -23,68 +48,78 @@
 
 <div id="keyboard">
     <div class="piano">
-        <span id="rootTxt">C7</span>
+        <span id="rootTxt">7</span>
         <div id="keyContainer">
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
     <div class="piano">
-        <span id="rootTxt">C6</span>
+        <span id="rootTxt">6</span>
         <div id="keyContainer">
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
     <div class="piano">
-        <span id="rootTxt">C5</span>
+        <span id="rootTxt">5</span>
         <div id="keyContainer">
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
     <div class="piano">
-        <span id="rootTxt">C4</span>
+        <span id="rootTxt">4</span>
         <div id="keyContainer">
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
     <div class="piano">
-        <span id="rootTxt">C3</span>
+        <span id="rootTxt">3</span>
         <div id="keyContainer">
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
-            <div class="white"></div>
-            <div class="black"></div>
-            <div class="white"></div>
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
 </div>
@@ -96,7 +131,7 @@
 
         padding-left: 70px;
 
-        margin-top: 50px;
+        margin-top: 35px;
 
         display: inline-flex;
         flex-direction: column;
@@ -123,6 +158,16 @@
         display: inline-flex;
         justify-content: end;
         flex-direction: column;
+    }
+
+    #keyContainer > div > .txt {
+        margin: 0;
+
+        color: transparent;
+
+        filter: invert(1);
+
+        position: relative;
     }
 
     #keyContainer > .white {
