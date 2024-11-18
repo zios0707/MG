@@ -15,11 +15,13 @@
 
 <style>
     #info {
-        width: 160px; /* 165px */
+        width: 160px;
+        height: 100%;
 
-        border-top: #00000099 solid 5px;
-        border-right: #00000099 solid 5px;
-        border-bottom: #00000099 solid 5px;
+        margin-left: 125px;
+
+        z-index: 5;
+        position: fixed;
 
         background: #999999;
     }

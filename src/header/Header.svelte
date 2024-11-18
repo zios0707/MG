@@ -17,6 +17,7 @@
     #header {
         width: 100%;
         height: 58px;
+        z-index: 10;
 
         background: #666666;
 

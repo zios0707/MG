@@ -89,13 +89,13 @@
 
 <style>
     #channels {
-        width: 120px; /* 125 */
+        width: 120px;
+        height: 100%;
 
-        border-top: #00000099 solid 5px;
-        border-right: #00000099 solid 5px;
-        border-bottom: #00000099 solid 5px;
-
+        z-index: 5;
         overflow: scroll;
+
+        position: fixed;
 
         background: #999999;
         user-select: none;
