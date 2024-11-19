@@ -138,6 +138,8 @@
 
         position: fixed;
 
+        user-select: none;
+
         background: #aaaaaa;
     }
 
