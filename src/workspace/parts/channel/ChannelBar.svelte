@@ -91,8 +91,7 @@
     #channels {
         width: 120px;
         height: 100%;
-
-        z-index: 5;
+        z-index: 9;
         overflow: scroll;
 
         position: fixed;

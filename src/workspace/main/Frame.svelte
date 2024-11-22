@@ -7,17 +7,19 @@
 
 <div id="Frame">
     <Navigation/>
+    <Properties/>
     <Keyboard/>
     <Field/>
-    <Properties/>
 </div>
 
 <style>
     #Frame {
-        width: 100%;
+        width: 1000vw;
 
-        margin-left: 285px;
+        margin-left: 290px;
 
         position: absolute;
+
+        background: #888888;
     }
 </style>

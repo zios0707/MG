@@ -17,10 +17,10 @@
     #info {
         width: 160px;
         height: 100%;
+        z-index: 9;
 
         margin-left: 125px;
 
-        z-index: 5;
         position: fixed;
 
         background: #999999;

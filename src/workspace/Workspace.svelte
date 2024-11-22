@@ -47,7 +47,6 @@
         display: inline-block;
 
         position: fixed;
-
         background: #888888;
     }
 </style>

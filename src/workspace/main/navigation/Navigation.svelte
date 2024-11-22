@@ -27,7 +27,7 @@
 <style>
     #navigation {
         height: 35px;
-        width: 200%;
+        width: inherit;
 
         position: fixed;
 

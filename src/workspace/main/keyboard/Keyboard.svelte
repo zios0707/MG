@@ -162,6 +162,7 @@
         padding-left: 70px;
 
         margin-top: 35px;
+        margin-bottom: 50px;
 
         display: inline-flex;
         flex-direction: column;
