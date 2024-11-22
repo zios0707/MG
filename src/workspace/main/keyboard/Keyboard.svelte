@@ -9,11 +9,11 @@
         // keyboard tracking set
         const target = document.querySelector('#keyboard')
 
-        function trackingY() {
-            target.style.marginTop = `${-window.scrollY + 35}px`
+        function trackingX() {
+            target.style.marginLeft = `${window.scrollX}px`
         }
 
-        window.addEventListener('scroll', trackingY)
+        window.addEventListener('scroll', trackingX)
 
         // show keyboard hint
         const txtList = document.querySelectorAll('div > .txt')
@@ -36,7 +36,7 @@
         })
 
         return () => {
-            window.removeEventListener('scroll', trackingY)
+            window.removeEventListener('scroll', trackingX)
             txtList.forEach(txt => {
                 txt.removeEventListener('mouseover', setReverse)
                 txt.removeEventListener('mouseout', revertReverse)
@@ -122,6 +122,36 @@
             <div class="white"><p class="txt">C</p></div>
         </div>
     </div>
+    <div class="piano">
+        <span id="rootTxt">2</span>
+        <div id="keyContainer">
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
+        </div>
+    </div>
+    <div class="piano">
+        <span id="rootTxt">1</span>
+        <div id="keyContainer">
+            <div class="white"><p class="txt">B</p></div>
+            <div class="black"><p class="txt">A#</p></div>
+            <div class="white"><p class="txt">A</p></div>
+            <div class="black"><p class="txt">G#</p></div>
+            <div class="white"><p class="txt">G</p></div>
+            <div class="white"><p class="txt">E</p></div>
+            <div class="black"><p class="txt">D#</p></div>
+            <div class="white"><p class="txt">D</p></div>
+            <div class="black"><p class="txt">C#</p></div>
+            <div class="white"><p class="txt">C</p></div>
+        </div>
+    </div>
 </div>
 
 <style>
@@ -136,7 +166,7 @@
         display: inline-flex;
         flex-direction: column;
 
-        position: fixed;
+        position: sticky;
 
         user-select: none;
 

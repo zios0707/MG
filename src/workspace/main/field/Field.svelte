@@ -6,7 +6,5 @@
 
 <style>
     #field {
-        width: 200vw;
-        height: 200vh;
     }
 </style>
