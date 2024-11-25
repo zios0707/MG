@@ -2,7 +2,14 @@
     import { onMount } from 'svelte'
 
     function playSound(event) {
+        const target = event.target
 
+        if (target.classList.contains('txt')) {
+            // 뭐고 이거
+            const pitch = target.textContent + target.parentNode.parentNode.parentNode.firstChild.textContent
+
+            console.log(pitch)
+        }
     }
 
     onMount(() => {
@@ -46,7 +53,7 @@
 
 </script>
 
-<div id="keyboard">
+<div id="keyboard" onclick={playSound}>
     <div class="piano">
         <span id="rootTxt">7</span>
         <div id="keyContainer">
@@ -55,6 +62,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -70,6 +79,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -85,6 +96,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -100,6 +113,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -115,6 +130,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -130,6 +147,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -145,6 +164,8 @@
             <div class="white"><p class="txt">A</p></div>
             <div class="black"><p class="txt">G#</p></div>
             <div class="white"><p class="txt">G</p></div>
+            <div class="black"><p class="txt">F#</p></div>
+            <div class="white"><p class="txt">F</p></div>
             <div class="white"><p class="txt">E</p></div>
             <div class="black"><p class="txt">D#</p></div>
             <div class="white"><p class="txt">D</p></div>
@@ -193,7 +214,15 @@
         flex-direction: column;
     }
 
+    #keyContainer > div {
+        border-top: #111111 1px solid;
+
+        box-sizing: border-box;
+    }
+
     #keyContainer > div > .txt {
+        height: 100%;
+
         margin: 0;
 
         color: transparent;
