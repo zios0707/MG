@@ -6,7 +6,6 @@
 
 <div id="info">
     {#if $channel.trackId !== undefined}
-        <div>{$channel.name}</div>
         <div>{$channel.volume}</div>
     {:else}
         <div>please select channel!</div>
