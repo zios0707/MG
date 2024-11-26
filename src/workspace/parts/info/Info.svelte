@@ -6,6 +6,14 @@
 
 <div id="info">
     {#if $channel.trackId !== undefined}
+        <input type="text" id="name" autocomplete="off"
+               onclick={(e) => e.stopPropagation()}
+               onblur={(e) => channel.update(chan => {
+                   chan.name = e.target.value
+                   return chan;
+               })}
+               value={$channel.name}
+        >
         <div>{$channel.volume}</div>
     {:else}
         <div>please select channel!</div>
@@ -23,5 +31,10 @@
         position: fixed;
 
         background: #999999;
+    }
+
+    #info > input {
+        width: 90%;
+        background: transparent;
     }
 </style>

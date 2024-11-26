@@ -1,7 +1,7 @@
 <script>
     import { onMount } from 'svelte'
     import { channel } from '../../../store.js'
-    import Channel from '../../../class/Channel'
+    import Channel from '../../../class/Channel.svelte.js'
     import ChannelComp from './Channel.svelte'
 
     let channels = $state([new Channel()]) // @type { Channel[] }

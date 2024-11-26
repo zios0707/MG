@@ -4,8 +4,6 @@
 
     const dispatcher = createEventDispatcher();
 
-
-
     // functions
 
     function deleteChannel(e) {
@@ -36,10 +34,7 @@
     <button onclick={deleteChannel}>X</button>
     {#if channel}
         <div> {channel.trackId} </div>
-        <input type="text" id="name" autocomplete="off"
-               onclick={(e) => e.stopPropagation()}
-               value={channel.name.replace('#', iter)}
-        >
+        <div>{channel.name.replace('#', iter)} </div>
     {/if}
 
     <div id="buttons">
@@ -60,10 +55,6 @@
         flex-direction: column;
 
         border: #000000cc solid 3px;
-    }
-
-    .channel > input {
-        background: transparent;
     }
 
     .channel#selected {
