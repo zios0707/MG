@@ -5,7 +5,10 @@ let ids = new Set();
 export default class Channel {
     trackId = $state(this.getNextId());
     name = $state("# default track");
+
+    /** @type Note[] */
     notes = $state([]);
+
     volume = $state(100);
     muted = $state(false);
     solo = $state(false);
