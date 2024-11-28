@@ -29,6 +29,8 @@
         height: 35px;
         width: inherit;
 
+        z-index: 1;
+
         position: fixed;
 
         background: #cccccc;
