@@ -1,6 +1,14 @@
 <script>
     import { onMount } from 'svelte'
 
+    const piano = Array.from({length: 7})
+    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].reverse()
+
+    function isBlackNote(pitch) {
+        console.log(pitch.length)
+        return pitch.length === 2
+    }
+
     function playSound(event) {
         const target = event.target
 
@@ -54,125 +62,22 @@
 </script>
 
 <div id="keyboard" onclick={playSound}>
-    <div class="piano">
-        <span id="rootTxt">7</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
+    {#each piano as _, i}
+        <div class="piano">
+            <span id="rootTxt">
+                {7 - i}
+            </span>
+            <div id="keyContainer">
+                {#each pitch as item}
+                    <div class:white={!isBlackNote(item)}
+                        class:black={isBlackNote(item)}
+                    >
+                        <p class="txt">{item}</p>
+                    </div>
+                {/each}
+            </div>
         </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">6</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">5</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">4</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">3</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">2</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
-    <div class="piano">
-        <span id="rootTxt">1</span>
-        <div id="keyContainer">
-            <div class="white"><p class="txt">B</p></div>
-            <div class="black"><p class="txt">A#</p></div>
-            <div class="white"><p class="txt">A</p></div>
-            <div class="black"><p class="txt">G#</p></div>
-            <div class="white"><p class="txt">G</p></div>
-            <div class="black"><p class="txt">F#</p></div>
-            <div class="white"><p class="txt">F</p></div>
-            <div class="white"><p class="txt">E</p></div>
-            <div class="black"><p class="txt">D#</p></div>
-            <div class="white"><p class="txt">D</p></div>
-            <div class="black"><p class="txt">C#</p></div>
-            <div class="white"><p class="txt">C</p></div>
-        </div>
-    </div>
+    {/each}
 </div>
 
 <style>
@@ -215,6 +120,9 @@
     }
 
     #keyContainer > div {
+        height: 25px;
+        width: inherit;
+
         border-top: #111111 1px solid;
 
         box-sizing: border-box;
@@ -233,16 +141,10 @@
     }
 
     #keyContainer > .white {
-        height: 25px;
-        width: inherit;
-
         background: #ddddddcc;
     }
 
     #keyContainer > .black{
-        height: 25px;
-        width: inherit;
-
         background: #222222cc;
     }
 </style>
