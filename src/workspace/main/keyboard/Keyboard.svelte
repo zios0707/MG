@@ -5,7 +5,6 @@
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].reverse()
 
     function isBlackNote(pitch) {
-        console.log(pitch.length)
         return pitch.length === 2
     }
 
@@ -20,6 +19,17 @@
         }
     }
 
+    function setReverse(event) {
+        const hexBg = (event.target.parentNode.classList.contains('black')) ?
+            '#222222' : '#dddddd'
+
+        event.target.style.color = hexBg
+    }
+
+    function revertReverse(event) {
+        event.target.style.color = 'transparent'
+    }
+
     onMount(() => {
         // keyboard tracking set
         const target = document.querySelector('#keyboard')
@@ -30,32 +40,8 @@
 
         window.addEventListener('scroll', trackingX)
 
-        // show keyboard hint
-        const txtList = document.querySelectorAll('div > .txt')
-
-        function setReverse(event) {
-            const bg = getComputedStyle(event.target).backgroundColor
-            const hexBg = (event.target.parentNode.classList.contains('black')) ?
-                 '#222222' : '#dddddd'
-
-            event.target.style.color = hexBg
-        }
-
-        function revertReverse(event) {
-            event.target.style.color = 'transparent'
-        }
-
-        txtList.forEach(txt => {
-            txt.addEventListener('mouseover', setReverse)
-            txt.addEventListener('mouseout', revertReverse)
-        })
-
         return () => {
             window.removeEventListener('scroll', trackingX)
-            txtList.forEach(txt => {
-                txt.removeEventListener('mouseover', setReverse)
-                txt.removeEventListener('mouseout', revertReverse)
-            })
         }
     })
 
@@ -72,7 +58,9 @@
                     <div class:white={!isBlackNote(item)}
                         class:black={isBlackNote(item)}
                     >
-                        <p class="txt">{item}</p>
+                        <p class="txt"
+                        onmouseover={setReverse}
+                        onmouseout={revertReverse}>{item}</p>
                     </div>
                 {/each}
             </div>
