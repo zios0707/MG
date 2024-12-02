@@ -2,7 +2,7 @@
     import { onMount } from 'svelte'
 
     const piano = Array.from({length: 7})
-    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].reverse()
+    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
     function isBlackNote(pitch) {
         return pitch.length === 2
@@ -54,7 +54,7 @@
                 {7 - i}
             </span>
             <div id="keyContainer">
-                {#each pitch as item}
+                {#each pitch.reverse() as item}
                     <div class:white={!isBlackNote(item)}
                         class:black={isBlackNote(item)}
                     >
