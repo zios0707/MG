@@ -33,7 +33,6 @@
 <div class="channel" id={(selected) ? 'selected' : null} onclick={pickChannel} ondblclick={selectChannel}>
     <button onclick={deleteChannel}>X</button>
     {#if channel}
-        <div> {channel.trackId} </div>
         <div>{channel.name.replace('#', iter)} </div>
     {/if}
 
