@@ -1,18 +1,18 @@
 <script>
-    import { channel } from '../../../store.js'
+    import { channel } from '../../../store.js';
 
-    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const height = 25, width = 125, defaultLeft = 455;
 
-    const ls = Array.from({ length:84 }).map((_, i) => numberToPitch(i))
+    const ls = Array.from({ length:84 }).map((_, i) => numberToPitch(i));
 
     function numberToPitch(num) {
         num = 83 - num;
-        return pitch[num % 12] + (Math.floor(num / 12) + 1)
+        return pitch[num % 12] + (Math.floor(num / 12) + 1);
     }
 
     function pitchToNumber(midi) {
-        return 83 - ((midi.substring(midi.length - 1) - 1) * 12 + pitch.indexOf(midi.substring(0, midi.length - 1)))
+        return 83 - ((midi.substring(midi.length - 1) - 1) * 12 + pitch.indexOf(midi.substring(0, midi.length - 1)));
     }
 
     let mainPosition, dragging, dragTarget;
@@ -30,8 +30,8 @@
     }
 
     function dragTrackingY(e) {
-        dragTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`
-        lastPitch = e.target.dataset.pitch
+        dragTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`;
+        lastPitch = e.target.dataset.pitch;
     }
 
     function confirmDrag(e) {
@@ -112,7 +112,6 @@
     }
 
     #blocks {
-
         position: relative;
     }
 

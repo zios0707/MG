@@ -8,24 +8,26 @@
 
     function deleteChannel(e) {
         e.stopPropagation();
-        dispatcher('delete', { value: channel.trackId})
+        dispatcher('delete', { value: channel.trackId});
     }
 
     function selectChannel() {
-        dispatcher('select', { value: channel})
+        dispatcher('select', { value: channel});
     }
 
     function pickChannel(e) {
         dispatcher('pick',
-            { value: {
-                iter: iter,
-                shifted: e.shiftKey
-            }}
-        )
+            { value:
+                {
+                    iter: iter,
+                    shifted: e.shiftKey
+                }
+            }
+        );
     }
 
     function clicked(e) {
-        e.stopPropagation()
+        e.stopPropagation();
         console.log("CLICK")
     }
 </script>
@@ -57,7 +59,6 @@
     }
 
     .channel#selected {
-
         border: #00ffffcc solid 3px;
     }
 

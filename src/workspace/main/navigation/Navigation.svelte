@@ -1,17 +1,17 @@
 <script>
-    import { onMount } from 'svelte'
+    import { onMount } from 'svelte';
 
     onMount(() => {
-        const target = document.querySelector('#navigation')
+        const target = document.querySelector('#navigation');
 
         function trackingX() {
-            target.style.marginLeft = `${-window.scrollX}px`
+            target.style.marginLeft = `${-window.scrollX}px`;
         }
 
-        window.addEventListener('scroll', trackingX)
+        window.addEventListener('scroll', trackingX);
 
         return () => {
-            window.removeEventListener('scroll', trackingX)
+            window.removeEventListener('scroll', trackingX);
         }
     })
 </script>

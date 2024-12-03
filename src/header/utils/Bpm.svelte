@@ -1,24 +1,24 @@
 <script lang="ts">
-    import { bpm } from '../../store.js'
-    let preValue
+    import { bpm } from '../../store.js';
+    let preValue;
 
     function inputEvent(e) {
-        e.target.value = e.target.value.trim()
-        if(preValue === undefined) preValue = e.target.value
+        e.target.value = e.target.value.trim();
 
+        if(preValue === undefined) preValue = e.target.value;
 
         if (!/^\d*$/.test(e.target.value) || e.target.value >= 1000 || e.target.value <= 0) {
-            e.target.value = preValue
+            e.target.value = preValue;
         }else {
-            preValue = parseFloat(e.target.value)
+            preValue = parseFloat(e.target.value);
         }
 
-        e.target.readOnly = true
-        $bpm = preValue
+        e.target.readOnly = true;
+        $bpm = preValue;
     }
 
-    const upBpm = () => {if ($bpm < 999) $bpm++}
-    const downBpm = () => {if (1 < $bpm) $bpm--}
+    const upBpm = () => {if ($bpm < 999) $bpm++};
+    const downBpm = () => {if (1 < $bpm) $bpm--};
 
     // TODO: BPM 클릭하고 마우스 휠로 조지면 바뀌도록 (마우스를 움직여서 구현하게 할려 했는데 아마도 안됨)
 </script>
@@ -61,7 +61,6 @@
 
     input:focus {
         outline: none;
-        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* 예시: 파란색 그림자 */
     }
 
 </style>

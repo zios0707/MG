@@ -1,9 +1,7 @@
 <script>
-    import StartAndStop from './utils/Play.svelte'
-    import Bpm from './utils/Bpm.svelte'
-    import TimeSignature from './utils/TimeSignature.svelte'
-
-
+    import StartAndStop from './utils/Play.svelte';
+    import Bpm from './utils/Bpm.svelte';
+    import TimeSignature from './utils/TimeSignature.svelte';
 </script>
 
 <div id="header">

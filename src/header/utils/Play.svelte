@@ -1,11 +1,11 @@
 <script>
     import { isPlaying } from '../../store.js'
 
-    const play = document.querySelector('#play')
-    const stop = document.querySelector('#stop')
-    const record = document.querySelector('#record') // TODO : MIDI 호환
+    const play = document.querySelector('#play');
+    const stop = document.querySelector('#stop');
+    const record = document.querySelector('#record'); // TODO : MIDI 호환
 
-    const controller = document.querySelector('#container')
+    const controller = document.querySelector('#container');
 
     // controller.addEventListener('keydown', (e: Event) => {
     //

@@ -1,8 +1,8 @@
 <script>
-    import Keyboard from './keyboard/Keyboard.svelte'
-    import Navigation from './navigation/Navigation.svelte'
-    import Properties from './properties/Properties.svelte'
-    import Field from './field/Field.svelte'
+    import Keyboard from './keyboard/Keyboard.svelte';
+    import Navigation from './navigation/Navigation.svelte';
+    import Properties from './properties/Properties.svelte';
+    import Field from './field/Field.svelte';
 </script>
 
 <div id="Frame">

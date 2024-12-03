@@ -1,19 +1,19 @@
 <script>
-    import { onMount } from 'svelte'
+    import { onMount } from 'svelte';
 
-    const piano = Array.from({length: 7})
-    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+    const piano = Array.from({length: 7});
+    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
     function isBlackNote(pitch) {
-        return pitch.length === 2
+        return pitch.length === 2;
     }
 
     function playSound(event) {
-        const target = event.target
+        const target = event.target;
 
         if (target.classList.contains('txt')) {
             // 뭐고 이거
-            const pitch = target.textContent + target.parentNode.parentNode.parentNode.firstChild.textContent
+            const pitch = target.textContent + target.parentNode.parentNode.parentNode.firstChild.textContent;
 
             console.log(pitch)
         }
@@ -21,13 +21,13 @@
 
     function setReverse(event) {
         const hexBg = (event.target.parentNode.classList.contains('black')) ?
-            '#222222' : '#dddddd'
+            '#222222' : '#dddddd';
 
-        event.target.style.color = hexBg
+        event.target.style.color = hexBg;
     }
 
     function revertReverse(event) {
-        event.target.style.color = 'transparent'
+        event.target.style.color = 'transparent';
     }
 
     onMount(() => {
@@ -35,13 +35,13 @@
         const target = document.querySelector('#keyboard')
 
         function trackingX() {
-            target.style.marginLeft = `${window.scrollX}px`
+            target.style.marginLeft = `${window.scrollX}px`;
         }
 
-        window.addEventListener('scroll', trackingX)
+        window.addEventListener('scroll', trackingX);
 
         return () => {
-            window.removeEventListener('scroll', trackingX)
+            window.removeEventListener('scroll', trackingX);
         }
     })
 

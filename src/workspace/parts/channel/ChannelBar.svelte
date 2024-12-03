@@ -1,11 +1,10 @@
 <script>
-    import { onMount } from 'svelte'
-    import { channel } from '../../../store.js'
-    import Channel from '../../../class/Channel.svelte.js'
-    import ChannelComp from './Channel.svelte'
+    import { channel } from '../../../store.js';
+    import Channel from '../../../class/Channel.svelte.js';
+    import ChannelComp from './Channel.svelte';
 
-    let channels = $state([new Channel()]) // @type { Channel[] }
-    let pickedList = $state([])
+    let channels = $state([new Channel()]); // @type { Channel[] }
+    let pickedList = $state([]);
 
     function deleteChannel(event) {
         channels.find(i => i.trackId === event.detail.value).deleteId()
@@ -28,18 +27,18 @@
 
             console.log(pickedList)
         }else {
-            pickedList = [event.detail.value.iter]
+            pickedList = [event.detail.value.iter];
         }
     }
 
     function addDragging(comp) {
         console.log('drag start')
-        comp.classList.add('dragging')
+        comp.classList.add('dragging');
     }
 
     function removeDragging(comp) {
         console.log('drag end')
-        comp.classList.remove('dragging')
+        comp.classList.remove('dragging');
     }
 
     function getDragAfterElement(container, y) {

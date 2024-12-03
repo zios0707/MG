@@ -1,19 +1,19 @@
 <script>
-    import { onMount } from 'svelte'
+    import { onMount } from 'svelte';
 
     onMount(() => {
         const target = document.querySelector('#properties')
-
+;
         function trackingX() {
-            target.style.marginLeft = `${-window.scrollX + 165}px`
+            target.style.marginLeft = `${-window.scrollX + 165}px`;
         }
 
-        window.addEventListener('scroll', trackingX)
+        window.addEventListener('scroll', trackingX);
 
         return () => {
-            window.removeEventListener('scroll', trackingX)
+            window.removeEventListener('scroll', trackingX);
         }
-    })
+    });
 </script>
 
 <div id="container">
