@@ -45,7 +45,7 @@
 
 <style>
     .channel {
-        width: 80%; /* 80% + 3px */
+        width: 80%; /* 80% + 6px */
         height: 155px;
 
         margin-top: 6px;
