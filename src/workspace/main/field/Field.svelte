@@ -16,15 +16,17 @@
 </script>
 
 <div id="field">
-    <div id="lineContainer">
+    {#if $channel.trackId !== undefined}
+        <div id="lineContainer">
             {#each ls as item}
-            <div class="line"
-                 data-pitch={item}
-            >
-                {item}
-            </div>
-        {/each}
-    </div>
+                <div class="line"
+                     data-pitch={item}
+                >
+                    {item}
+                </div>
+            {/each}
+        </div>
+    {/if}
     <div id="blocks">
         {#each $channel.notes as note}
             <div
