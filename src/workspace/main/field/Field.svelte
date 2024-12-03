@@ -2,6 +2,7 @@
     import { channel } from '../../../store.js'
 
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
+    const height = 25, width = 125, defaultLeft = 455;
 
     const ls = Array.from({ length:84 }).map((_, i) => numberToPitch(i))
 
@@ -13,6 +14,35 @@
     function pitchToNumber(midi) {
         return 83 - ((midi.substring(midi.length - 1) - 1) * 12 + pitch.indexOf(midi.substring(0, midi.length - 1)))
     }
+
+    let mainPosition, dragging, dragTarget;
+    let lastPitch;
+    function dragStart(e) {
+        dragTarget = e.target
+        mainPosition = e.offsetX;
+        dragging = true;
+
+        lastPitch = e.target.dataset.pitch;
+    }
+
+    function dragTrackingX(e) {
+        e.target.style.left = `${Math.max(0, e.pageX - defaultLeft - mainPosition)}px`;
+    }
+
+    function dragTrackingY(e) {
+        dragTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`
+        lastPitch = e.target.dataset.pitch
+    }
+
+    function confirmDrag(e) {
+        dragging = false;
+        e.target.style.left = `${Math.max(0, e.pageX - defaultLeft - mainPosition)}px`;
+
+        const note = $channel.notes[e.target.dataset.idx];
+
+        note.time = Math.max(0, e.pageX - defaultLeft - mainPosition) / width;
+        note.midi = lastPitch;
+    }
 </script>
 
 <div id="field">
@@ -21,21 +51,35 @@
             {#each ls as item}
                 <div class="line"
                      data-pitch={item}
+                     ondragenter={dragTrackingY}
                 >
-                    {item}
                 </div>
             {/each}
         </div>
     {/if}
     <div id="blocks">
-        {#each $channel.notes as note}
+        {#each $channel.notes as note, i}
             <div
+                    draggable="true"
+
+                    data-idx={i}
+                    data-pitch={note.midi}
+                    data-time={note.time}
+
                     style={`
-                    width: ${125 * note.duration}px;
-                    margin-top: ${25 * pitchToNumber(note.midi)}px;
-                    margin-left: ${125 * note.time}px;
+                    width: ${width * note.duration}px;
+                    top: ${height * pitchToNumber(note.midi)}px;
+                    left: ${width * note.time}px;
                     `}
-            ></div>
+                    ondragstart={dragStart}
+                    ondrag={dragTrackingX}
+                    ondragend={confirmDrag}
+            >
+                <!-- ondragstart={dragStart} 기본 위치 세팅 -->
+                <!-- ondrag={dragTrackingX} 계속 트래킹 -->
+                <!-- line 에 ondragenter 를 넣어서 top 자동 조정 되도록 -->
+                <!-- ondragend={confirmDrag} 확정 -->
+            </div>
         {/each}
     </div>
 </div>
