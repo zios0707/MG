@@ -2,6 +2,7 @@
     import { channel } from '../../../store.js'
 
     // TODO mute나 solo 버튼 및 여러 구성요소 구현
+    // 이미 컴포넌트로 구현돼있다는 사실? https://tonejs.github.io/docs/15.0.4/classes/Channel.html
 </script>
 
 <div id="info">
