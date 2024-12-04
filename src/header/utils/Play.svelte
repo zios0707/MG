@@ -1,5 +1,7 @@
 <script>
-    import { isPlaying } from '../../store.js'
+    import { isPlaying, channel, bpm } from '../../store.js'
+    import * as Tone from 'tone'
+    import { onMount } from 'svelte'
 
     const play = document.querySelector('#play');
     const stop = document.querySelector('#stop');
@@ -7,10 +9,36 @@
 
     const controller = document.querySelector('#container');
 
-    // controller.addEventListener('keydown', (e: Event) => {
-    //
-    // })
+    function timeOnBpm(time) {
+        return time * 60 / $bpm
+    }
 
+    let synth;
+    window.addEventListener('keydown', (e) => {
+        if (e.key === ' ') {
+
+
+            e.preventDefault()
+            console.log($isPlaying)
+            if (!$isPlaying) {
+                const now = Tone.now();
+                synth = new Tone.PolySynth().toDestination()
+
+                $channel.notes.forEach((note, i) => {
+                    synth.triggerAttackRelease(
+                        note.midi,
+                        timeOnBpm(note.duration),
+                        now + timeOnBpm(note.time),
+                        note.velocity / 127
+                    )
+                });
+            }else {
+                synth.dispose()
+            }
+
+            $isPlaying = !$isPlaying;
+        }
+    })
 </script>
 
 <div id="Play">
