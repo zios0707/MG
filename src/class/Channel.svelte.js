@@ -7,7 +7,36 @@ export default class Channel {
     name = $state("# default track");
 
     /** @type Note[] */
-    notes = $state([]);
+    notes = $state([
+        new Note(0, 0.5, 'G#3', 100),
+        new Note(0.5, 0.25, 'G#3', 100),
+        new Note(0.75, 0.25, 'A#3', 100),
+        new Note(1, 0.25, 'G#3', 100),
+
+        new Note(1.5, 0.25, 'G#3', 100),
+        new Note(1.75, 0.25, 'A#3', 100),
+        new Note(2, 0.5, 'G#3', 100),
+        new Note(2.5, 0.5, 'F#3', 100),
+        new Note(3, 0.5, 'F3', 100),
+
+        new Note(3.5, 0.25, 'D#3', 100),
+        new Note(3.75, 0.25, 'C#3', 100),
+        new Note(4, 0.25, 'D#3', 100),
+        new Note(4.25, 0.25, 'C#3', 100),
+        new Note(4.5, 0.25, 'D#3', 100),
+        new Note(4.75, 0.25, 'C#3', 100),
+        new Note(5, 0.25, 'D#3', 100),
+
+        new Note(5.25, 0.25, 'F3', 100),
+        new Note(5.75, 0.5, 'F3', 100),
+        new Note(6.25, 0.25, 'F#3', 100),
+        new Note(6.5, 0.25, 'F3', 100),
+        new Note(6.75, 0.25, 'F#3', 100),
+        new Note(7, 0.25, 'F3', 100),
+
+        new Note(7.5, 0.25, 'D#3', 100),
+        new Note(7.75, 0.25, 'C#3', 100)
+    ]);
 
     volume = $state(100);
     muted = $state(false);

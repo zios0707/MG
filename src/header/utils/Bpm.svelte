@@ -1,6 +1,11 @@
 <script lang="ts">
     import { bpm } from '../../store.js';
+    import * as Tone from 'tone'
     let preValue;
+
+    $effect(() => {
+        Tone.Transport.bpm.value = $bpm
+    })
 
     function inputEvent(e) {
         e.target.value = e.target.value.trim();
