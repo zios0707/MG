@@ -1,7 +1,6 @@
 <script>
-    import { isPlaying, channel, bpm } from '../../store.js'
-    import * as Tone from 'tone'
-    import { onMount } from 'svelte'
+    import { isPlaying, channel, bpm } from '../../store.js';
+    import * as Tone from 'tone';
 
     const play = document.querySelector('#play');
     const stop = document.querySelector('#stop');
@@ -10,19 +9,17 @@
     const controller = document.querySelector('#container');
 
     function timeOnBpm(time) {
-        return time * 60 / $bpm
+        return time * 60 / $bpm;
     }
 
     let synth;
     window.addEventListener('keydown', (e) => {
         if (e.key === ' ') {
-
-
             e.preventDefault()
-            console.log($isPlaying)
+
             if (!$isPlaying) {
                 const now = Tone.now();
-                synth = new Tone.PolySynth().toDestination()
+                synth = new Tone.PolySynth().toDestination();
 
                 $channel.notes.forEach((note, i) => {
                     synth.triggerAttackRelease(
