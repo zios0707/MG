@@ -86,7 +86,7 @@
                      data-pitch={item}
                      ondragenter={dragTrackingY}
                 >
-                    <Marks/>
+                    <Marks pitch={item}/>
                 </div>
             {/each}
         </div>
