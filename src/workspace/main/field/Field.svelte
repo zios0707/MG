@@ -1,5 +1,6 @@
 <script>
     import { channel } from '../../../store.js';
+    import Marks from './Marks.svelte'
 
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
     const height = 25, width = 125, defaultLeft = 455;
@@ -15,33 +16,65 @@
         return 83 - ((midi.substring(midi.length - 1) - 1) * 12 + pitch.indexOf(midi.substring(0, midi.length - 1)));
     }
 
-    let mainPosition, dragging, dragTarget;
-    let lastPitch;
+    function extractNumber(px) {
+        return Number(px.substring(0, px.length - 2));
+    }
+
+    let dragging, dragTarget, currentTarget;
+    let lastPitch, mainPosition, thisWidth, thisLeft;
     function dragStart(e) {
-        dragTarget = e.target
-        mainPosition = e.offsetX;
+        dragTarget = e.target;
+        currentTarget = e.currentTarget;
+        mainPosition = e.pageX;
+        thisWidth = extractNumber(e.currentTarget.style.width);
+        thisLeft = extractNumber(e.currentTarget.style.left);
+
         dragging = true;
 
-        lastPitch = e.target.dataset.pitch;
+        lastPitch = e.currentTarget.dataset.pitch;
     }
 
     function dragTrackingX(e) {
-        e.target.style.left = `${Math.max(0, e.pageX - defaultLeft - mainPosition)}px`;
+        if (dragTarget.id === "") {
+            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
+        }else if (dragTarget.id === "right") {
+            // width 조절
+            currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
+        }else {
+            // left 조절
+            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
+            currentTarget.style.width = `${Math.max(1, -(e.pageX - mainPosition) + thisWidth)}px`;
+        }
     }
 
     function dragTrackingY(e) {
-        dragTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`;
-        lastPitch = e.target.dataset.pitch;
+        if (dragTarget.id === "") {
+            currentTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`;
+            lastPitch = e.target.dataset.pitch;
+        }
+
     }
 
     function confirmDrag(e) {
         dragging = false;
-        e.target.style.left = `${Math.max(0, e.pageX - defaultLeft - mainPosition)}px`;
+        const note = $channel.notes[currentTarget.dataset.idx];
 
-        const note = $channel.notes[e.target.dataset.idx];
+        if (dragTarget.id === "") {
+            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
 
-        note.time = Math.max(0, e.pageX - defaultLeft - mainPosition) / width;
-        note.midi = lastPitch;
+            note.time = Math.max(0.1, e.pageX - mainPosition + thisLeft) / width;
+            note.midi = lastPitch;
+        }else if (dragTarget.id === "right") {
+            currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
+
+            note.duration = Math.max(0.1, e.pageX - mainPosition + thisWidth) / width;
+        }else {
+            currentTarget.style.left = `${Math.max(1, e.pageX - mainPosition + thisWidth) / width}px`
+            currentTarget.style.width = `${-Math.max(1, e.pageX - mainPosition + thisWidth)}px`;
+
+            note.time = Math.max(0.1, e.pageX - mainPosition + thisLeft) / width;
+            note.duration = Math.max(0.1, -(e.pageX - mainPosition) + thisWidth) / width;
+        }
     }
 </script>
 
@@ -53,6 +86,7 @@
                      data-pitch={item}
                      ondragenter={dragTrackingY}
                 >
+                    <Marks/>
                 </div>
             {/each}
         </div>
@@ -64,21 +98,27 @@
 
                     data-idx={i}
                     data-pitch={note.midi}
-                    data-time={note.time}
 
-                    style={`
-                    width: ${width * note.duration}px;
-                    top: ${height * pitchToNumber(note.midi)}px;
-                    left: ${width * note.time}px;
-                    `}
+                    style={`width: ${width * note.duration}px; top: ${height * pitchToNumber(note.midi)}px; left: ${width * note.time}px;`}
                     ondragstart={dragStart}
                     ondrag={dragTrackingX}
                     ondragend={confirmDrag}
             >
+                <!-- 크기 조절 반응을 위해 하위 요소 존재 -->
                 <!-- ondragstart={dragStart} 기본 위치 세팅 -->
                 <!-- ondrag={dragTrackingX} 계속 트래킹 -->
                 <!-- line 에 ondragenter 를 넣어서 top 자동 조정 되도록 -->
                 <!-- ondragend={confirmDrag} 확정 -->
+                <div
+                        id="left"
+                        draggable="true"
+                >
+                </div>
+                <div
+                        id="right"
+                        draggable="true"
+                >
+                </div>
             </div>
         {/each}
     </div>
@@ -118,10 +158,22 @@
     #blocks > div {
         height: 25px;
 
-        display: inline-block;
+        display: inline-flex;
+        justify-content: space-between;
 
         position: absolute;
 
         background: #00000044;
+    }
+
+    #blocks > div > div {
+        height: 100%;
+        width: 3%;
+
+        background: #22222288;
+    }
+
+    #blocks > div > div:hover {
+        cursor: e-resize;
     }
 </style>
