@@ -42,15 +42,15 @@
             currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
         }else {
             // left 조절
-            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
-            currentTarget.style.width = `${Math.max(1, -(e.pageX - mainPosition) + thisWidth)}px`;
+            currentTarget.style.left = `${Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1)}px`;
+            currentTarget.style.width = `${Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth)}px`;
         }
     }
 
     function dragTrackingY(e) {
         if (dragTarget.id === "") {
-            currentTarget.style.top = `${pitchToNumber(e.target.dataset.pitch) * height}px`;
-            lastPitch = e.target.dataset.pitch;
+            currentTarget.style.top = `${pitchToNumber(e.currentTarget.dataset.pitch) * height}px`;
+            lastPitch = e.currentTarget.dataset.pitch;
         }
 
     }
@@ -67,13 +67,13 @@
         }else if (dragTarget.id === "right") {
             currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
 
-            note.duration = Math.max(0.1, e.pageX - mainPosition + thisWidth) / width;
+            note.duration = Math.max(1, e.pageX - mainPosition + thisWidth) / width;
         }else {
-            currentTarget.style.left = `${Math.max(1, e.pageX - mainPosition + thisWidth) / width}px`
-            currentTarget.style.width = `${-Math.max(1, e.pageX - mainPosition + thisWidth)}px`;
+            currentTarget.style.left = `${Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1)}px`
+            currentTarget.style.width = `${Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth)}px`;
 
-            note.time = Math.max(0.1, e.pageX - mainPosition + thisLeft) / width;
-            note.duration = Math.max(0.1, -(e.pageX - mainPosition) + thisWidth) / width;
+            note.time = Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1) / width;
+            note.duration = Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth) / width;
         }
     }
 </script>
@@ -168,7 +168,7 @@
 
     #blocks > div > div {
         height: 100%;
-        width: 3%;
+        width: 5px;
 
         background: #22222288;
     }
