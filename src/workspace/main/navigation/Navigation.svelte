@@ -1,11 +1,11 @@
 <script>
     import { onMount } from 'svelte';
 
-    onMount(() => {
-        const target = document.querySelector('#navigation');
+    let navigation;
 
+    onMount(() => {
         function trackingX() {
-            target.style.marginLeft = `${-window.scrollX}px`;
+            navigation.style.marginLeft = `${-window.scrollX}px`;
         }
 
         window.addEventListener('scroll', trackingX);
@@ -18,7 +18,7 @@
 
 <div id="block"></div>
 
-<div id="navigation">
+<div id="navigation" bind:this={navigation}>
     <div id="container">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque dolor dolores enim eos error, eum expedita in ipsa libero molestias odio quaerat quasi repellat repellendus saepe sunt veritatis. Expedita, mollitia!
     </div>

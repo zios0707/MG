@@ -1,11 +1,11 @@
 <script>
     import { onMount } from 'svelte';
 
+    let properties;
+
     onMount(() => {
-        const target = document.querySelector('#properties')
-;
         function trackingX() {
-            target.style.marginLeft = `${-window.scrollX + 165}px`;
+            properties.style.marginLeft = `${-window.scrollX + 165}px`;
         }
 
         window.addEventListener('scroll', trackingX);
@@ -17,9 +17,8 @@
 </script>
 
 <div id="container">
-
     <div id="block"></div>
-    <div id="properties"> <!-- velocity -->
+    <div id="properties" bind:this={properties}> <!-- velocity -->
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci alias amet doloremque eveniet ex facere id non numquam, quis ratione saepe, tenetur ullam vero, voluptate voluptates. Eos laudantium rem vitae.
     </div>
 </div>

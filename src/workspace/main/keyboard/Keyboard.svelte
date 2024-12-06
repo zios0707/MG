@@ -4,6 +4,8 @@
     const piano = Array.from({length: 7});
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 
+    let keyboard;
+
     function isBlackNote(pitch) {
         return pitch.length === 2;
     }
@@ -32,10 +34,8 @@
 
     onMount(() => {
         // keyboard tracking set
-        const target = document.querySelector('#keyboard')
-
         function trackingX() {
-            target.style.marginLeft = `${window.scrollX}px`;
+            keyboard.style.marginLeft = `${window.scrollX}px`;
         }
 
         window.addEventListener('scroll', trackingX);
@@ -47,7 +47,7 @@
 
 </script>
 
-<div id="keyboard" onclick={playSound}>
+<div id="keyboard" bind:this={keyboard} onclick={playSound}>
     {#each piano as _, i}
         <div class="piano">
             <span id="rootTxt">
