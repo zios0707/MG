@@ -1,9 +1,9 @@
 <script>
-    import { channel } from '../../../store.js';
+    import {channel} from '../../../store.js';
     import Marks from './Marks.svelte'
 
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-    const height = 25, width = 125, defaultLeft = 455;
+    const height = 25, width = 125, quarter = width / 4, defaultLeft = 455, autoOffset = 3.5;
 
     const ls = Array.from({ length:84 }).map((_, i) => numberToPitch(i));
 
@@ -18,6 +18,15 @@
 
     function extractNumber(px) {
         return Number(px.substring(0, px.length - 2));
+    }
+
+    function getPositionByGrid(pageX, offset, min) {
+        const eLeft = pageX - offset;
+        const floor = Math.floor(eLeft / quarter)
+
+        const val = (eLeft - quarter * floor);
+        return (val > quarter - autoOffset) ? Math.max(min, (floor + 1) * quarter) :
+            (autoOffset > val) ? Math.max(min, (floor) * quarter) : Math.max(min, pageX - offset)
     }
 
     let dragging, dragTarget, currentTarget;
@@ -39,11 +48,11 @@
             currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
         }else if (dragTarget.id === "right") {
             // width 조절
-            currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
+            currentTarget.style.width = `${getPositionByGrid(e.pageX, thisLeft + defaultLeft, 1)}px`
         }else {
             // left 조절
-            currentTarget.style.left = `${Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1)}px`;
-            currentTarget.style.width = `${Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth)}px`;
+            currentTarget.style.left = `${Math.min(getPositionByGrid(e.pageX, mainPosition - thisLeft, 0), thisLeft + thisWidth - 1)}px`;
+            currentTarget.style.width = `${Math.min(getPositionByGrid(thisWidth - (e.pageX - mainPosition), 0, 1), thisLeft + thisWidth)}px`;
         }
     }
 
@@ -65,15 +74,20 @@
             note.time = Math.max(0.1, e.pageX - mainPosition + thisLeft) / width;
             note.midi = lastPitch;
         }else if (dragTarget.id === "right") {
-            currentTarget.style.width = `${Math.max(1, e.pageX - mainPosition + thisWidth)}px`
+            const position = getPositionByGrid(e.pageX, thisLeft + defaultLeft, 1);
 
-            note.duration = Math.max(1, e.pageX - mainPosition + thisWidth) / width;
+            currentTarget.style.width = `${position}px`
+
+            note.duration = position / width;
         }else {
-            currentTarget.style.left = `${Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1)}px`
-            currentTarget.style.width = `${Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth)}px`;
+            const leftPosition = Math.min(getPositionByGrid(e.pageX, mainPosition - thisLeft, 0), thisLeft + thisWidth - 1);
+            const widthPosition = Math.min(getPositionByGrid(thisWidth - (e.pageX - mainPosition), 0, 1), thisLeft + thisWidth);
 
-            note.time = Math.min(Math.max(0, e.pageX - mainPosition + thisLeft), thisLeft + thisWidth - 1) / width;
-            note.duration = Math.min(Math.max(1, -(e.pageX - mainPosition) + thisWidth), thisLeft + thisWidth) / width;
+            currentTarget.style.left = `${leftPosition}px`;
+            currentTarget.style.width = `${widthPosition}px`;
+
+            note.time = leftPosition / width;
+            note.duration = widthPosition / width;
         }
     }
 </script>
