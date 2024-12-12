@@ -45,7 +45,7 @@
 
     function dragTrackingX(e) {
         if (dragTarget.id === "") {
-            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
+            currentTarget.style.left = `${getPositionByGrid(e.pageX, mainPosition - thisLeft, 0)}px`;
         }else if (dragTarget.id === "right") {
             // width 조절
             currentTarget.style.width = `${getPositionByGrid(e.pageX, thisLeft + defaultLeft, 1)}px`
@@ -69,9 +69,11 @@
         const note = $channel.notes[currentTarget.dataset.idx];
 
         if (dragTarget.id === "") {
-            currentTarget.style.left = `${Math.max(0, e.pageX - mainPosition + thisLeft)}px`;
+            const position = getPositionByGrid(e.pageX, mainPosition - thisLeft, 0)
 
-            note.time = Math.max(0.1, e.pageX - mainPosition + thisLeft) / width;
+            currentTarget.style.left = `${position}px`;
+
+            note.time = position / width;
             note.midi = lastPitch;
         }else if (dragTarget.id === "right") {
             const position = getPositionByGrid(e.pageX, thisLeft + defaultLeft, 1);
