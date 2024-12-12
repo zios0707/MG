@@ -114,6 +114,8 @@
                     data-pitch={note.midi}
 
                     style={`width: ${width * note.duration}px; top: ${height * pitchToNumber(note.midi)}px; left: ${width * note.time}px;`}
+
+                    ondblclick={e=>$channel.notes.splice(i,1)}
                     ondragstart={dragStart}
                     ondrag={dragTrackingX}
                     ondragend={confirmDrag}
