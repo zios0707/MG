@@ -55,7 +55,7 @@
 
         position: relative;
 
-        border-left: #E0E0E010 2px dashed;
+        border-left: #40404010 2px dashed;
 
         box-sizing: border-box;
     }

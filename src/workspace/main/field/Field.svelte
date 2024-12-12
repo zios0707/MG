@@ -185,7 +185,7 @@
 
         box-sizing: border-box;
 
-        background: #00000044;
+        background: #EEEEEE44;
     }
 
     #blocks > div > div {
