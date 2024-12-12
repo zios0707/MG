@@ -177,16 +177,17 @@
 
         position: absolute;
 
+        border: #111111 2px solid;
+
+        box-sizing: border-box;
+
         background: #00000044;
     }
 
     #blocks > div > div {
         height: 100%;
-        width: 5px;
-
-        background: #22222288;
+        width: 4px;
     }
-
     #blocks > div > div:hover {
         cursor: e-resize;
     }

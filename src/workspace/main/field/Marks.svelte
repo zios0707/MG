@@ -54,5 +54,9 @@
         display: inline-block;
 
         position: relative;
+
+        border-left: #E0E0E010 2px dashed;
+
+        box-sizing: border-box;
     }
 </style>
