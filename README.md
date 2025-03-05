@@ -17,3 +17,6 @@
 > > ### export
 > > ### 로그인, 회원가입, 작품 저장 기능
 > > ### 타임 스탬프
+
+> > 와이어프레임
+> ![Image](https://github.com/user-attachments/assets/870fbcb3-7168-4aea-a245-93f8d6d3638c)
