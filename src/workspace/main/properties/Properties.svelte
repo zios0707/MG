@@ -14,6 +14,8 @@
             window.removeEventListener('scroll', trackingX);
         }
     });
+
+    /TODO channel 불러올 시 velocity import, 그리고 반응성 추가
 </script>
 
 <div id="container">

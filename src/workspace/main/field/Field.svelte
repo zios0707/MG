@@ -92,6 +92,7 @@
             note.duration = widthPosition / width;
         }
     }
+    / TODO: dragBox (선택만 만들고 추후 기능이 만들어지면 그때그때 연계되도록 하면될듯)
 </script>
 
 <div id="field">

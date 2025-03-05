@@ -2,6 +2,8 @@
     import StartAndStop from './utils/Play.svelte';
     import Bpm from './utils/Bpm.svelte';
     import TimeSignature from './utils/TimeSignature.svelte';
+
+    /TODO 루프 스테이션
 </script>
 
 <div id="header">
