@@ -6,6 +6,7 @@
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
     import Field from './field/Field.svelte';
+    import LoopStation from './loopStation/LoopStation.svelte';
 
     onMount(() => {
         function flipShift(e) {
@@ -17,7 +18,7 @@
 
         return () => {
             document.removeEventListener('keydown', flipShift);
-            document.remove('keyup', flipShift);
+            document.removeEventListener('keyup', flipShift);
         }
     });
 </script>
@@ -27,6 +28,7 @@
     <Properties/>
     <Keyboard/>
     <Field/>
+    <LoopStation/>
 </div>
 
 <style>

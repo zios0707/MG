@@ -133,10 +133,10 @@
 
                     style={`width: ${width * note.duration}px; top: ${height * pitchToNumber(note.midi)}px; left: ${width * note.time}px;`}
 
-                    class={($selectedNotes.includes(note)) ? 'selected' : ''}
+                    class:selected={$selectedNotes.includes(note)}
 
                     onclick={selectBlock}
-                    ondblclick={e=>$channel.notes.splice(i,1)}
+                    ondblclick={()=>$channel.notes.splice(i,1)}
                     ondragstart={dragStart}
                     ondrag={dragTrackingX}
                     ondragend={confirmDrag}
