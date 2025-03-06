@@ -1,5 +1,5 @@
 <script>
-    import {channel} from '../../../store.js';
+    import { channel, isShiftOn, selectedNotes } from '../../../store.js';
     import Marks from './Marks.svelte'
 
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
@@ -92,7 +92,19 @@
             note.duration = widthPosition / width;
         }
     }
-    / TODO: dragBox (선택만 만들고 추후 기능이 만들어지면 그때그때 연계되도록 하면될듯)
+
+    function selectBlock(e) {
+        const note = $channel.notes[e.currentTarget.dataset.idx];
+
+        // 중복 선택
+        if ($selectedNotes.includes(note)) selectedNotes.update(ls => { ls.splice(ls.indexOf(note), 1); return ls; });
+        // 쉬프트 | 다중 선택
+        else if ($isShiftOn) selectedNotes.update(ls => [...ls, note])
+        // 단일 선택
+        else $selectedNotes = [note]
+    }
+
+    // TODO: dragBox (선택만 만들고 추후 기능이 만들어지면 그때그때 연계되도록 하면될듯)
 </script>
 
 <div id="field">
@@ -101,6 +113,8 @@
             {#each ls as item}
                 <div class="line"
                      data-pitch={item}
+
+                     onclick={() => $selectedNotes = []}
                      ondragenter={dragTrackingY}
                 >
                     <Marks pitch={item}/>
@@ -108,6 +122,7 @@
             {/each}
         </div>
     {/if}
+    <div id="dragBox"></div>
     <div id="blocks">
         {#each $channel.notes as note, i}
             <div
@@ -118,6 +133,9 @@
 
                     style={`width: ${width * note.duration}px; top: ${height * pitchToNumber(note.midi)}px; left: ${width * note.time}px;`}
 
+                    class={($selectedNotes.includes(note)) ? 'selected' : ''}
+
+                    onclick={selectBlock}
                     ondblclick={e=>$channel.notes.splice(i,1)}
                     ondragstart={dragStart}
                     ondrag={dragTrackingX}
@@ -144,6 +162,13 @@
 </div>
 
 <style>
+    #dragBox {
+        background-color: #2222ff44;
+        border: 1px #1111cccc;
+
+        display: none; /* -> inline-block */
+    }
+
     #field {
         width: 100%;
 
@@ -195,5 +220,9 @@
     }
     #blocks > div > div:hover {
         cursor: e-resize;
+    }
+
+    #blocks > .selected {
+        background: #AAAACC;
     }
 </style>

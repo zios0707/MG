@@ -1,8 +1,25 @@
 <script>
+    import { onMount } from 'svelte';
+    import { isShiftOn } from '../../store.js';
+
     import Keyboard from './keyboard/Keyboard.svelte';
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
     import Field from './field/Field.svelte';
+
+    onMount(() => {
+        function flipShift(e) {
+            if (e.key === 'Shift') $isShiftOn = e.shiftKey;
+        }
+
+        document.addEventListener('keydown', flipShift);
+        document.addEventListener('keyup', flipShift);
+
+        return () => {
+            document.removeEventListener('keydown', flipShift);
+            document.remove('keyup', flipShift);
+        }
+    });
 </script>
 
 <div id="Frame">
