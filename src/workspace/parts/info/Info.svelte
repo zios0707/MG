@@ -23,7 +23,7 @@
 
 <style>
     #info {
-        width: 160px;
+        width: 170px;
         height: 100%;
         z-index: 9;
 
@@ -31,7 +31,7 @@
 
         position: fixed;
 
-        background: #999999;
+        background: #4f4f4f;
     }
 
     #info > input {

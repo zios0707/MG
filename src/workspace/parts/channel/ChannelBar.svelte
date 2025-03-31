@@ -95,12 +95,12 @@
 
         position: fixed;
 
-        background: #999999;
+        background: #4f4f4f;
         user-select: none;
     }
 
     #channels > .pick {
-        background: #00ffff55;
+        background: #39b5cc;
     }
 
     #channels::-webkit-scrollbar {

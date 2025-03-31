@@ -16,11 +16,11 @@
 <style>
     #workspace {
         width: 100%;
-        height: calc(100% - 58px);
+        height: calc(100% - 50px);
 
-        padding-top: 58px;
+        padding-top: 50px;
 
-        background: #888888;
+        background: #444444;
     }
 
     #wall1 {
@@ -34,7 +34,7 @@
 
         position: fixed;
 
-        background: #888888;
+        background: #444444;
     }
 
     #wall2 {
@@ -42,11 +42,11 @@
         height: 100%;
         z-index: 10;
 
-        left: 285px;
+        left: 295px;
 
         display: inline-block;
 
         position: fixed;
-        background: #888888;
+        background: #444444;
     }
 </style>

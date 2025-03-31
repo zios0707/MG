@@ -39,6 +39,6 @@
 
         position: absolute;
 
-        background: #888888;
+        background: #444444;
     }
 </style>

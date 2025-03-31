@@ -46,20 +46,18 @@
 
 <style>
     .channel {
-        width: 80%; /* 80% + 6px */
-        height: 155px;
-
-        margin-top: 6px;
-        margin-left: calc(10% - 3px);
+        width: 100px; /* 108 - 8 */
+        height: 174px; /* 182 - 8 */
 
         display: inline-flex;
         flex-direction: column;
 
-        border: #000000cc solid 3px;
+        background: #444444;
+        border: #000000cc solid 4px;
     }
 
     .channel#selected {
-        border: #00ffffcc solid 3px;
+        border: #39b5cc solid 4px;
     }
 
     #buttons {
