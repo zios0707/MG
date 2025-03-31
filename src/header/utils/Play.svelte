@@ -28,7 +28,7 @@
                         now + timeOnBpm(note.time),
                         note.velocity / 127
                     )
-                });
+                 });
             }else {
                 synth.dispose()
             }
@@ -39,72 +39,45 @@
 </script>
 
 <div id="Play">
-    <div id="record">
-        <div id="circle"></div>
-    </div>
+    <div id="component">
+        <div id="record">
+            <img src="/icons/mdi_record.svg" alt="record icon" />
+        </div>
 
-    <div id="play">
-        <div class="bar"></div>
-        <div class="bar"></div>
-    </div>
+        <div id="play">
+            <img src="/icons/carbon_triangle-right-solid.svg" alt="play icon" />
+        </div>
 
-    <div id="stop">
-        <div id="triangle"></div>
+        <div id="stop">
+            <img src="/icons/material-symbols_stop.svg" alt="stop icon" />
+        </div>
     </div>
 </div>
 
 
 <style>
     #Play {
-        width: 125px;
-        height: 85%;
+        width: 150px;
+        height: 36px;
 
         display: inline-flex;
-        justify-content: space-evenly;
-        align-content: center;
+
+        justify-content: center;
+        align-items: center;
+
+        background: #a9a9a9;
     }
 
-    #Play > div {
+    #component {
+        height: 24px;
+        display: flex;
+
+        gap: 24px;
+    }
+
+    #component > div {
+        width: 24px;
+        height: 24px;
         display: inline-block;
-        justify-content: space-evenly;
-        align-content: center;
-    }
-
-    #play {
-        margin-top: 5px;
-
-        display: inline-flex;
-    }
-
-    .bar {
-        width: 10px;
-        height: 30px;
-
-        background: #cccccc;
-
-        display: inline-block;
-    }
-
-    #stop {
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-
-    #triangle {
-        width: 0;
-        height: 0;
-
-        border-bottom: 15px solid transparent;
-        border-top: 15px solid transparent;
-        border-left: 25px solid #cccccc;
-    }
-
-    #circle {
-        width: 25px;
-        height: 25px;
-
-        background: #cccccc;
-
-        border-radius: 50%;
     }
 </style>

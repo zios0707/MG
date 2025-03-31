@@ -9,7 +9,7 @@ body::-webkit-scrollbar {
 }
 
 body {
-	color: #333;
+	color: black;
 	margin: 0;
 	padding: 8px;
 	box-sizing: border-box;

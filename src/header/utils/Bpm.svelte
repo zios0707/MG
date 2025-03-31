@@ -30,7 +30,7 @@
 
 <div id="Bpm">
     <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
-    <input id="BpmValue" readonly bind:value="{$bpm}" autocomplete="off"
+    <input id="bpmValue" readonly bind:value="{$bpm}" autocomplete="off"
     onclick={(e) => {e.target.blur()}}
     ondblclick={(e) => {e.target.focus(); e.target.readOnly = false }}
     onblur={(e) => {inputEvent(e)}}/>
@@ -39,33 +39,43 @@
 
 <style>
     #minus, #plus {
-        width: 30px;
-        height: 100%;
+        width: 13px;
+        height: 34px;
 
-        background: #cccccc;
+        background: #4f4f4f;
     }
 
-    #BpmValue {
+    #bpmValue {
         width: 50%;
         height: 100%;
 
         border: transparent;
         background: transparent;
 
+        font-size: 20px;
+        font-weight: 800;
+
         text-align: center;
     }
 
     #Bpm {
-        width: 125px;
-        height: 85%;
+        width: 80px;
+        height: 36px;
         display: inline-flex;
 
         justify-content: space-between;
         align-items: center;
+
+        background: #a9a9a9;
     }
 
     input:focus {
         outline: none;
+    }
+
+    button {
+        border: none;
+        margin: 1px;
     }
 
 </style>
