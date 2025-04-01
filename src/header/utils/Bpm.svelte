@@ -69,10 +69,6 @@
         background: #a9a9a9;
     }
 
-    input:focus {
-        outline: none;
-    }
-
     button {
         border: none;
         margin: 1px;

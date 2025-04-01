@@ -6,7 +6,7 @@
     <div id="icon"
          class:on={midiMode}
     >
-        <img src="/icons/material-symbols_piano-sharp.svg" alt="midi icon" />
+        <object type="image/svg+xml" data="/icons/material-symbols_piano-sharp.svg" />
     </div>
 </div>
 

@@ -7,7 +7,7 @@
     <div id="icon"
          class:on={brushMode}
     >
-        <img src="/icons/ic_sharp-brush.svg" alt="brush icon" />
+        <object type="image/svg+xml" data="/icons/ic_sharp-brush.svg" />
     </div>
 </div>
 

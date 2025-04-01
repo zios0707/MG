@@ -44,7 +44,7 @@
         >
             untitled
             <div id="drop">
-                <img src="/icons/fe_drop-down.svg" alt="drop icon"
+                <object type="image/svg+xml" data="/icons/fe_drop-down.svg"
                      style="transform: rotate({$rotation}deg);"
                 />
             </div>

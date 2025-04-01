@@ -41,15 +41,15 @@
 <div id="Play">
     <div id="component">
         <div id="record">
-            <img src="/icons/mdi_record.svg" alt="record icon" />
+            <object type="image/svg+xml" data="/icons/mdi_record.svg" />
         </div>
 
         <div id="play">
-            <img src="/icons/carbon_triangle-right-solid.svg" alt="play icon" />
+            <object type="image/svg+xml" data="/icons/carbon_triangle-right-solid.svg" />
         </div>
 
         <div id="stop">
-            <img src="/icons/material-symbols_stop.svg" alt="stop icon" />
+            <object type="image/svg+xml" data="/icons/material-symbols_stop.svg" />
         </div>
     </div>
 </div>

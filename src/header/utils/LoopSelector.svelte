@@ -16,7 +16,7 @@
     <div id="icon"
          class:on={loopMode}
     >
-        <img src="/icons/qlementine-icons_loop-16.svg" alt="loop icon" />
+        <object type="image/svg+xml" data="/icons/qlementine-icons_loop-16.svg" />
     </div>
     <div id="end" class="time">
         <div id="component">
