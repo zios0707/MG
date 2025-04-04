@@ -64,14 +64,13 @@
     const afterElement = getDragAfterElement(e.target, e.clientY);
     const draggable = document.querySelector('.dragging')
 }}>
-    <button onclick={() => channels = [...channels, new Channel()]}>+</button>
     {#each channels as value, i}
         <div
                 class="draggable"
                 class:pick={pickedList[0] === i || pickedList[0] <= i && i <= pickedList[1]}
                 draggable={pickedList[0] === i || pickedList[0] <= i && i <= pickedList[1]}
                 ondragstart={(e) => addDragging(e.target)}
-                ondragend={(e) => removeDragging(e.target)}
+                    ondragend={(e) => removeDragging(e.target)}
         >
             <ChannelComp
                     ondragover={e => {
@@ -84,19 +83,27 @@
         </div>
     {/each}
 
+    <button
+            id="create"
+            onclick={() => channels = [...channels, new Channel()]}
+    >
+        <img src="/icons/mdi_plus-outline.svg" alt="plus icon" />
+    </button>
 </div>
 
 <style>
     #channels {
-        width: 120px;
-        height: 100%;
+        width: 104px; /* 120px - 16px */
+        height: 100vh;
+
+        padding: 12px 8px 12px 8px;
+
         z-index: 9;
         overflow: scroll;
 
         position: fixed;
 
         background: #4f4f4f;
-        user-select: none;
     }
 
     #channels > .pick {
@@ -105,5 +112,19 @@
 
     #channels::-webkit-scrollbar {
         display: none;
+    }
+
+    #create {
+        width: 108px;
+        height: 36px;
+
+        margin-bottom: 82px;
+        border: 4px solid #000000;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #444444;
     }
 </style>

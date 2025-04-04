@@ -4,6 +4,9 @@
 
     const dispatcher = createEventDispatcher();
 
+    let mutemode = false
+    let solomode = false
+
     // functions
 
     function deleteChannel(e) {
@@ -25,32 +28,59 @@
             }
         );
     }
+    </script>
 
-    function clicked(e) {
-        e.stopPropagation();
-        console.log("CLICK")
-    }
-</script>
+<div
+        class="channel"
+        id={(selected) ? 'selected' : null}
+        onclick={pickChannel}
+        ondblclick={selectChannel}
+>
+    <div id="status"></div>
 
-<div class="channel" id={(selected) ? 'selected' : null} onclick={pickChannel} ondblclick={selectChannel}>
-    <button onclick={deleteChannel}>X</button>
     {#if channel}
-        <div>{channel.name.replace('#', iter)} </div>
+        <div id="text">{channel.name.replace('#', iter)} </div>
     {/if}
 
     <div id="buttons">
-        <button id="mute" onclick={clicked}>M</button>
-        <button id="solo" onclick={clicked}>S</button>
+        <button
+                id="mute"
+                class:on={mutemode}
+                onclick={() => mutemode = !mutemode}
+        >
+            {#if mutemode}
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg" />
+            {:else}
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg" />
+            {/if}
+        </button>
+        <button
+                id="solo"
+                class:on={solomode}
+                onclick={() => solomode = !solomode}
+        >
+
+            {#if solomode}
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg" />
+            {:else}
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg" />
+            {/if}
+        </button>
     </div>
 </div>
 
 <style>
     .channel {
-        width: 100px; /* 108 - 8 */
-        height: 174px; /* 182 - 8 */
+        width: 94px; /* 108 - 8 - 6 */
+        height: 168px; /* 182 - 8 - 6 */
+
+        margin-bottom: 10px;
+
+        padding: 3px;
 
         display: inline-flex;
         flex-direction: column;
+        gap: 3px;
 
         background: #444444;
         border: #000000cc solid 4px;
@@ -58,6 +88,24 @@
 
     .channel#selected {
         border: #39b5cc solid 4px;
+    }
+
+    #text {
+        height: 116px;
+        width: 94px;
+
+        font-size: 12px;
+        font-weight: 900;
+        color: white
+    }
+
+    #status {
+        width: 94px;
+        height: 6px;
+
+        background: #00ff0033;
+
+        box-shadow: inset 0 0 0 1px #00ff0082;
     }
 
     #buttons {
@@ -68,15 +116,36 @@
         justify-content: space-evenly;
         align-items: center;
 
-        flex-grow: 1;
+        gap: 4px;
     }
 
     #buttons > button {
-        width: 40px;
-        height: 30px;
+        width: 46px;
+        height: 40px;
 
-        border: 2px solid black;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
 
-        background: #cccccc;
+        background: #d9d9d9;
+    }
+
+    #buttons > button.on {
+
+        background: #aaaaaa;
+    }
+
+    button * {
+        pointer-events: none;
+    }
+
+    .on svg {
+        background: white;
+        fill: #ff0000;
+    }
+
+    #solo.on svg {
+        background: white;
+        fill: #0000ff;
     }
 </style>
