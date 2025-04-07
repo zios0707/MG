@@ -49,9 +49,9 @@
                 onclick={() => mutemode = !mutemode}
         >
             {#if mutemode}
-                <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg" />
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
             {:else}
-                <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg" />
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg"></object>
             {/if}
         </button>
         <button
@@ -61,9 +61,9 @@
         >
 
             {#if solomode}
-                <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg" />
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg"></object>
             {:else}
-                <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg" />
+                <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg"></object>
             {/if}
         </button>
     </div>

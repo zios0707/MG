@@ -23,7 +23,7 @@
     });
 </script>
 
-<div id="Frame">
+<div id="frame">
     <Navigation/>
     <Properties/>
     <Keyboard/>
@@ -32,7 +32,7 @@
 </div>
 
 <style>
-    #Frame {
+    #frame {
         width: 1000vw;
 
         margin-left: 290px;

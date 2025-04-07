@@ -38,25 +38,25 @@
     })
 </script>
 
-<div id="Play">
+<div id="play">
     <div id="component">
         <div id="record">
-            <object type="image/svg+xml" data="/icons/mdi_record.svg" />
+            <object type="image/svg+xml" data="/icons/mdi_record.svg"></object>
         </div>
 
         <div id="play">
-            <object type="image/svg+xml" data="/icons/carbon_triangle-right-solid.svg" />
+            <object type="image/svg+xml" data="/icons/carbon_triangle-right-solid.svg"></object>
         </div>
 
         <div id="stop">
-            <object type="image/svg+xml" data="/icons/material-symbols_stop.svg" />
+            <object type="image/svg+xml" data="/icons/material-symbols_stop.svg"></object>
         </div>
     </div>
 </div>
 
 
 <style>
-    #Play {
+    #play {
         width: 150px;
         height: 36px;
 

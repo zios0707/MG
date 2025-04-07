@@ -2,7 +2,7 @@
     import { tick } from '../../store.js';
 </script>
 
-<div id="Time">
+<div id="time">
     <div id="component">
         <div id="high" class="number">0</div>
         <div class="dot">.</div>
@@ -13,7 +13,7 @@
 </div>
 
 <style>
-    #Time {
+    #time {
         width: 175px;
         height: 36px;
 

@@ -28,7 +28,7 @@
     // TODO: BPM 클릭하고 마우스 휠로 조지면 바뀌도록 (마우스를 움직여서 구현하게 할려 했는데 아마도 안됨)
 </script>
 
-<div id="Bpm">
+<div id="bpm">
     <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
     <input id="bpmValue" readonly bind:value="{$bpm}" autocomplete="off"
     onclick={(e) => {e.target.blur()}}
@@ -58,7 +58,7 @@
         text-align: center;
     }
 
-    #Bpm {
+    #bpm {
         width: 80px;
         height: 36px;
         display: inline-flex;

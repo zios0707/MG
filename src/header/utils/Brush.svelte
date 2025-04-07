@@ -3,16 +3,18 @@
     let brushMode = false
 </script>
 
-<div id="Brush">
+<div id="brush"
+     onclick={() => brushMode = !brushMode}
+>
     <div id="icon"
          class:on={brushMode}
     >
-        <object type="image/svg+xml" data="/icons/ic_sharp-brush.svg" />
+        <object type="image/svg+xml" data="/icons/ic_sharp-brush.svg"></object>
     </div>
 </div>
 
 <style>
-    #Brush {
+    #brush {
         width: 64px;
         height: 36px;
 
@@ -30,5 +32,9 @@
 
     #icon.on {
         background: #eeee33;
+    }
+
+    object {
+        pointer-events: none;
     }
 </style>

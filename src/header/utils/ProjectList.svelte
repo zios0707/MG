@@ -36,7 +36,7 @@
 
 </script>
 
-<div id="ProjectList">
+<div id="projectList">
     {#if isAuthed}
         <div class="block"
              onclick={toggleList}
@@ -46,7 +46,7 @@
             <div id="drop">
                 <object type="image/svg+xml" data="/icons/fe_drop-down.svg"
                      style="transform: rotate({$rotation}deg);"
-                />
+               ></object>
             </div>
         </div>
         {#if openList}
@@ -68,7 +68,7 @@
 </div>
 
 <style>
-    #ProjectList {
+    #projectList {
         width: 150px;
 
         display: flex;
@@ -101,6 +101,10 @@
     .list {
         display: flex;
         flex-direction: column;
+    }
+
+    object {
+        pointer-events: none;
     }
 
     #drop > img {

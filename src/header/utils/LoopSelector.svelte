@@ -3,7 +3,7 @@
     let loopMode = false;
 </script>
 
-<div id="LoopSelector">
+<div id="loopSelector">
     <div id="start" class="time">
         <div id="component">
             <div id="high" class="number">0</div>
@@ -15,8 +15,9 @@
     </div>
     <div id="icon"
          class:on={loopMode}
+         onclick={() => loopMode = !loopMode}
     >
-        <object type="image/svg+xml" data="/icons/qlementine-icons_loop-16.svg" />
+        <object type="image/svg+xml" data="/icons/qlementine-icons_loop-16.svg"></object>
     </div>
     <div id="end" class="time">
         <div id="component">
@@ -30,7 +31,7 @@
 </div>
 
 <style>
-    #LoopSelector {
+    #loopSelector {
         height: 36px;
 
         display: flex;
@@ -83,5 +84,9 @@
 
     #icon.on {
         background: #eeee33;
+    }
+
+    object {
+        pointer-events: none;
     }
 </style>

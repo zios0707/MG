@@ -39,7 +39,7 @@
         {#if user}
             <div id="myPage">
                 <div id="icon">
-                    <object type="image/svg+xml" data="/icons/mdi_home.svg"/>
+                    <object type="image/svg+xml" data="/icons/mdi_home.svg"></object>
                 </div>
             </div>
         {:else}

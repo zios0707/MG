@@ -2,16 +2,17 @@
     let midiMode = false
 </script>
 
-<div id="Midi">
+<div id="midi">
     <div id="icon"
          class:on={midiMode}
+         onclick={() => midiMode = !midiMode}
     >
-        <object type="image/svg+xml" data="/icons/material-symbols_piano-sharp.svg" />
+        <object type="image/svg+xml" data="/icons/material-symbols_piano-sharp.svg"></object>
     </div>
 </div>
 
 <style>
-    #Midi {
+    #midi {
         width: 64px;
         height: 36px;
 
@@ -29,5 +30,9 @@
 
     #icon.on {
         background: #eeee33;
+    }
+
+    object {
+        pointer-events: none;
     }
 </style>
