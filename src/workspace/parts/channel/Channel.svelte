@@ -4,9 +4,6 @@
 
     const dispatcher = createEventDispatcher();
 
-    let mutemode = false
-    let solomode = false
-
     // functions
 
     function deleteChannel(e) {
@@ -45,10 +42,10 @@
     <div id="buttons">
         <button
                 id="mute"
-                class:on={mutemode}
-                onclick={() => mutemode = !mutemode}
+                class:on={channel.mute}
+                onclick={() => channel.mute = !channel.mute}
         >
-            {#if mutemode}
+            {#if channel.mute}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg"></object>
@@ -56,16 +53,20 @@
         </button>
         <button
                 id="solo"
-                class:on={solomode}
-                onclick={() => solomode = !solomode}
+                class:on={channel.solo}
+                onclick={() => channel.solo = !channel.solo}
         >
 
-            {#if solomode}
+            {#if channel.solo}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg"></object>
             {/if}
         </button>
+    </div>
+
+    <div>
+
     </div>
 </div>
 
@@ -103,10 +104,12 @@
         width: 94px;
         height: 6px;
 
-        background: #00ff0033;
+        background: #00ff0031;
 
-        box-shadow: inset 0 0 0 1px #00ff0082;
+        box-shadow: inset 0 0 0 1px #00ff0080;
     }
+
+    /* BUTTON */
 
     #buttons {
         height: auto;
@@ -139,13 +142,44 @@
         pointer-events: none;
     }
 
-    .on svg {
-        background: white;
-        fill: #ff0000;
+    /* LIST */
+
+    #projectList {
+        width: 150px;
+
+        display: flex;
+
+
+        flex-direction: column;
+
+        background: #a9a9a9;
     }
 
-    #solo.on svg {
-        background: white;
-        fill: #0000ff;
+    .block {
+        height: 36px;
+        padding: 6px 12px 0 12px;
+
+        display: flex;
+        justify-content: space-between;
+
+        text-align: center;
+        font-size: 20px;
+        font-weight: 800;
+
+        background: #a9a9a9;
+    }
+
+    #list > .block {
+        width: fit-content;
+
+    }
+
+    .list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    object {
+        pointer-events: none;
     }
 </style>
