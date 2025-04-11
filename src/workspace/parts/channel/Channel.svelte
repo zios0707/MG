@@ -64,10 +64,6 @@
             {/if}
         </button>
     </div>
-
-    <div>
-
-    </div>
 </div>
 
 <style>
