@@ -29,12 +29,12 @@
 </script>
 
 <div id="bpm">
-    <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
+    <button id="minus" on:click={downBpm} aria-label="Decrease BPM"></button>
     <input id="bpmValue" readonly bind:value="{$bpm}" autocomplete="off"
     on:click={(e) => {e.target.blur()}}
     on:dblclick={(e) => {e.target.focus(); e.target.readOnly = false }}
     on:blur={(e) => {inputEvent(e)}}/>
-    <button id="plus" onclick={upBpm} aria-label="Increase BPM"></button>
+    <button id="plus" on:click={upBpm} aria-label="Increase BPM"></button>
 </div>
 
 <style>

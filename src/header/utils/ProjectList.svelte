@@ -39,7 +39,7 @@
 <div id="projectList">
     {#if isAuthed}
         <div class="block"
-             onclick={toggleList}
+             on:click={toggleList}
 
         >
             untitled
