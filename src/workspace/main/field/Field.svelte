@@ -114,8 +114,8 @@
                 <div class="line"
                      data-pitch={item}
 
-                     onclick={() => $selectedNotes = []}
-                     ondragenter={dragTrackingY}
+                     on:click={() => $selectedNotes = []}
+                     on:dragenter={dragTrackingY}
                 >
                     <Marks pitch={item}/>
                 </div>
@@ -135,11 +135,11 @@
 
                     class:selected={$selectedNotes.includes(note)}
 
-                    onclick={selectBlock}
-                    ondblclick={()=>$channel.notes.splice(i,1)}
-                    ondragstart={dragStart}
-                    ondrag={dragTrackingX}
-                    ondragend={confirmDrag}
+                    on:click={selectBlock}
+                    on:dblclick={()=>$channel.notes.splice(i,1)}
+                    on:dragstart={dragStart}
+                    on:drag={dragTrackingX}
+                    on:dragend={confirmDrag}
             >
                 <!-- 크기 조절 반응을 위해 하위 요소 존재 -->
                 <!-- ondragstart={dragStart} 기본 위치 세팅 -->

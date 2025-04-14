@@ -31,9 +31,9 @@
 <div id="bpm">
     <button id="minus" onclick={downBpm} aria-label="Decrease BPM"></button>
     <input id="bpmValue" readonly bind:value="{$bpm}" autocomplete="off"
-    onclick={(e) => {e.target.blur()}}
-    ondblclick={(e) => {e.target.focus(); e.target.readOnly = false }}
-    onblur={(e) => {inputEvent(e)}}/>
+    on:click={(e) => {e.target.blur()}}
+    on:dblclick={(e) => {e.target.focus(); e.target.readOnly = false }}
+    on:blur={(e) => {inputEvent(e)}}/>
     <button id="plus" onclick={upBpm} aria-label="Increase BPM"></button>
 </div>
 

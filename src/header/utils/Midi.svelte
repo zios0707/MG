@@ -5,7 +5,7 @@
 <div id="midi">
     <div id="icon"
          class:on={midiMode}
-         onclick={() => midiMode = !midiMode}
+         on:click={() => midiMode = !midiMode}
     >
         <object type="image/svg+xml" data="/icons/material-symbols_piano-sharp.svg"></object>
     </div>

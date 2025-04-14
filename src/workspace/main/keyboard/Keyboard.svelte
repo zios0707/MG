@@ -47,7 +47,7 @@
 
 </script>
 
-<div id="keyboard" bind:this={keyboard} onclick={playSound}>
+<div id="keyboard" bind:this={keyboard} on:click={playSound}>
     {#each piano as _, i}
         <div class="piano">
             <span id="rootTxt">
@@ -59,8 +59,8 @@
                         class:black={isBlackNote(item)}
                     >
                         <p class="txt"
-                        onmouseover={setReverse}
-                        onmouseout={revertReverse}>{item}</p>
+                        on:mouseover={setReverse}
+                        on:mouseout={revertReverse}>{item}</p>
                     </div>
                 {/each}
             </div>

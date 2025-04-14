@@ -30,8 +30,8 @@
 <div
         class="channel"
         id={(selected) ? 'selected' : null}
-        onclick={pickChannel}
-        ondblclick={selectChannel}
+        on:click={pickChannel}
+        on:dblclick={selectChannel}
 >
     <div id="status"></div>
 
@@ -43,7 +43,7 @@
         <button
                 id="mute"
                 class:on={channel.mute}
-                onclick={() => channel.mute = !channel.mute}
+                on:click={() => channel.mute = !channel.mute}
         >
             {#if channel.mute}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
@@ -54,7 +54,7 @@
         <button
                 id="solo"
                 class:on={channel.solo}
-                onclick={() => channel.solo = !channel.solo}
+                on:click={() => channel.solo = !channel.solo}
         >
 
             {#if channel.solo}

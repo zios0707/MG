@@ -58,7 +58,7 @@
 
 </script>
 
-<div id="channels" ondragover={(e) => {
+<div id="channels" on:dragover={(e) => {
     e.preventDefault()
 
     const afterElement = getDragAfterElement(e.target, e.clientY);
@@ -69,11 +69,11 @@
                 class="draggable"
                 class:pick={pickedList[0] === i || pickedList[0] <= i && i <= pickedList[1]}
                 draggable={pickedList[0] === i || pickedList[0] <= i && i <= pickedList[1]}
-                ondragstart={(e) => addDragging(e.target)}
-                    ondragend={(e) => removeDragging(e.target)}
+                on:dragstart={(e) => addDragging(e.target)}
+                on:dragend={(e) => removeDragging(e.target)}
         >
             <ChannelComp
-                    ondragover={e => {
+                    on:dragover={e => {
                         e.stopPropagation()
                         // e.currentTarget.parentElement.dispatchEvent(new DragEvent('dragover', event))
                     }}
@@ -85,7 +85,7 @@
 
     <button
             id="create"
-            onclick={() => channels = [...channels, new Channel()]}
+            on:click={() => channels = [...channels, new Channel()]}
     >
         <img src="/icons/mdi_plus-outline.svg" alt="plus icon" />
     </button>

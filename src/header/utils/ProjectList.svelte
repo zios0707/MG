@@ -53,7 +53,7 @@
             <div id="list">
                 {#each projectList1 as project}
                     <div class="block" data-id={project.id}
-                         onclick={toggleList}
+                         on:click={toggleList}
                     >
                         {project.name}
                     </div>

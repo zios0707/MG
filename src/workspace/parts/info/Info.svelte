@@ -54,8 +54,8 @@
     {#if $channel.trackId !== undefined}
         <div id="status"></div>
         <input type="text" id="name" autocomplete="off"
-               onclick={(e) => e.stopPropagation()}
-               onblur={(e) => channel.update(chan => {
+               on:click={(e) => e.stopPropagation()}
+               on:blur={(e) => channel.update(chan => {
                    chan.name = e.target.value
                    return chan;
                })}
@@ -64,7 +64,7 @@
         <hr/>
         <div id="slide">
             <span id="bar"
-                  onclick={(e) => {
+                  on:click={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const clickX = e.clientX - rect.left;
                       const newVolume = Math.max(7, Math.min(120, Math.round((clickX / rect.width) * 127))) - 7;
@@ -88,7 +88,7 @@
             <button
                     id="mute"
                     class:on={$channel.mute}
-                    onclick={() => $channel.mute = !$channel.mute}
+                    on:click={() => $channel.mute = !$channel.mute}
             >
                 {#if $channel.mute}
                     <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
@@ -99,7 +99,7 @@
             <button
                     id="solo"
                     class:on={$channel.solo}
-                    onclick={() => $channel.solo = !$channel.solo}
+                    on:click={() => $channel.solo = !$channel.solo}
             >
 
                 {#if $channel.solo}
@@ -112,7 +112,7 @@
         <div id="instList">
             <div class="block"
                  id="top"
-                 onclick={toggleList}
+                 on:click={toggleList}
             >
                 <div style="width: 25px"></div>
                 <span class="txt">{useInst.name}</span>
@@ -126,7 +126,7 @@
             {#if openList}
                 {#each insts as inst}
                     <div class="block" data-value={inst.value}
-                         onclick={toggleList}
+                         on:click={toggleList}
                     >
                         <span class="txt">{inst.name}</span>
                     </div>
