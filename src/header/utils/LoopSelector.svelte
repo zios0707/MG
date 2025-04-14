@@ -15,7 +15,7 @@
     </div>
     <div id="icon"
          class:on={loopMode}
-         onclick={() => loopMode = !loopMode}
+         on:click={() => loopMode = !loopMode}
     >
         <object type="image/svg+xml" data="/icons/qlementine-icons_loop-16.svg"></object>
     </div>

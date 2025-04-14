@@ -35,7 +35,7 @@
 
                 class="mark"
 
-                ondblclick={addNote}
+                on:dblclick={addNote}
         >
         </div>
     {/each}

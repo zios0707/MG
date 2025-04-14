@@ -4,9 +4,6 @@
 
     const dispatcher = createEventDispatcher();
 
-    let mutemode = false
-    let solomode = false
-
     // functions
 
     function deleteChannel(e) {
@@ -33,8 +30,8 @@
 <div
         class="channel"
         id={(selected) ? 'selected' : null}
-        onclick={pickChannel}
-        ondblclick={selectChannel}
+        on:click={pickChannel}
+        on:dblclick={selectChannel}
 >
     <div id="status"></div>
 
@@ -45,10 +42,10 @@
     <div id="buttons">
         <button
                 id="mute"
-                class:on={mutemode}
-                onclick={() => mutemode = !mutemode}
+                class:on={channel.mute}
+                on:click={() => channel.mute = !channel.mute}
         >
-            {#if mutemode}
+            {#if channel.mute}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg"></object>
@@ -56,11 +53,11 @@
         </button>
         <button
                 id="solo"
-                class:on={solomode}
-                onclick={() => solomode = !solomode}
+                class:on={channel.solo}
+                on:click={() => channel.solo = !channel.solo}
         >
 
-            {#if solomode}
+            {#if channel.solo}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg"></object>
@@ -103,10 +100,12 @@
         width: 94px;
         height: 6px;
 
-        background: #00ff0033;
+        background: #00ff0031;
 
-        box-shadow: inset 0 0 0 1px #00ff0082;
+        box-shadow: inset 0 0 0 1px #00ff0080;
     }
+
+    /* BUTTON */
 
     #buttons {
         height: auto;
@@ -137,15 +136,5 @@
 
     button * {
         pointer-events: none;
-    }
-
-    .on svg {
-        background: white;
-        fill: #ff0000;
-    }
-
-    #solo.on svg {
-        background: white;
-        fill: #0000ff;
     }
 </style>

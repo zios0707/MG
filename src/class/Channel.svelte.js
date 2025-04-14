@@ -38,8 +38,8 @@ export default class Channel {
         new Note(7.75, 0.25, 'C#3', 100)
     ]);
 
-    volume = $state(100);
-    muted = $state(false);
+    volume = $state(0);
+    mute = $state(false);
     solo = $state(false);
 
     getNextId() {

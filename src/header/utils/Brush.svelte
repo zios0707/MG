@@ -4,7 +4,7 @@
 </script>
 
 <div id="brush"
-     onclick={() => brushMode = !brushMode}
+     on:click={() => brushMode = !brushMode}
 >
     <div id="icon"
          class:on={brushMode}
