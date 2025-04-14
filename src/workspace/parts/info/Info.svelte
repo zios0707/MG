@@ -67,11 +67,12 @@
                   onclick={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const clickX = e.clientX - rect.left;
-                      const newVolume = Math.round((clickX / rect.width) * 113);
+                      const newVolume = Math.max(7, Math.min(120, Math.round((clickX / rect.width) * 127))) - 7;
 
                       filled.style.width = `${newVolume}px`;
+
                       channel.update(chan => {
-                          chan.volume = Math.max(-60, Math.min(6, Math.round(newVolume / 113 * 66) - 60 ));
+                          chan.volume = Math.max(-60, Math.min(6, Math.round(newVolume / 114 * 66) - 60 ));
                           return chan;
                       });
                   }}
