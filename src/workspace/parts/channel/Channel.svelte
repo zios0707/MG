@@ -137,45 +137,4 @@
     button * {
         pointer-events: none;
     }
-
-    /* LIST */
-
-    #projectList {
-        width: 150px;
-
-        display: flex;
-
-
-        flex-direction: column;
-
-        background: #a9a9a9;
-    }
-
-    .block {
-        height: 36px;
-        padding: 6px 12px 0 12px;
-
-        display: flex;
-        justify-content: space-between;
-
-        text-align: center;
-        font-size: 20px;
-        font-weight: 800;
-
-        background: #a9a9a9;
-    }
-
-    #list > .block {
-        width: fit-content;
-
-    }
-
-    .list {
-        display: flex;
-        flex-direction: column;
-    }
-
-    object {
-        pointer-events: none;
-    }
 </style>
