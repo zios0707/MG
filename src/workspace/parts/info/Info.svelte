@@ -45,6 +45,8 @@
         }
     }
 
+    let filled;
+
     // 이미 컴포넌트로 구현돼있다는 사실? https://tonejs.github.io/docs/15.0.4/classes/Channel.html
 </script>
 
@@ -61,8 +63,20 @@
         >
         <hr/>
         <div id="slide">
-            <span id="bar">
-                <span id="filled"></span>
+            <span id="bar"
+                  onclick={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      const clickX = e.clientX - rect.left;
+                      const newVolume = Math.round((clickX / rect.width) * 113);
+
+                      filled.style.width = `${newVolume}px`;
+                      channel.update(chan => {
+                          chan.volume = Math.max(-60, Math.min(6, Math.round(newVolume / 113 * 66) - 60 ));
+                          return chan;
+                      });
+                  }}
+            >
+                <span id="filled" bind:this={filled}></span>
                 <span id="slider"></span>
             </span>
             <span id="volume">
