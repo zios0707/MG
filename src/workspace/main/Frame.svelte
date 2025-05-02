@@ -1,11 +1,12 @@
 <script>
     import { onMount } from 'svelte';
-    import { isShiftOn } from '../../store.js';
+    import { isShiftOn, channel } from '../../store.js';
 
     import Keyboard from './keyboard/Keyboard.svelte';
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
     import Field from './field/Field.svelte';
+    import FieldWithCanvas from './field/FieldWithCanvas.svelte';
     import LoopStation from './loopStation/LoopStation.svelte';
 
     onMount(() => {
@@ -27,13 +28,13 @@
     <Navigation/>
     <Properties/>
     <Keyboard/>
-    <Field/>
+    {#if $channel.trackId !== undefined} <FieldWithCanvas/> {/if}
     <LoopStation/>
 </div>
 
 <style>
     #frame {
-        width: 1000vw;
+        width: 100%;
 
         margin-left: 290px;
 
