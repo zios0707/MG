@@ -45,6 +45,7 @@
     let currentY = 0;
 
     let shift = false;
+    let focus = false;
     let dragBox = false;
 
     // Bulk width increments
@@ -235,7 +236,7 @@
                     // 노트와 시작 < x1 && x2 < 노트의 끝
                     // x1 <= 노트의 끝 && 노트의 시작 <= x2
                     if ((x1 <= (it.time + it.duration) && it.time <= x2) &&
-                        (y1 <= pitchToNumber(it.midi) && pitchToNumber(it.midi) <= y2)) {
+                        (y1 - 1 <= pitchToNumber(it.midi) && pitchToNumber(it.midi) <= y2)) {
                         ls.push(it);
                     }
                 });
@@ -281,6 +282,7 @@
         }
     }
 
+
     function handleClick(e:MouseEvent) {
         const {x, y} = getMousePos(e);
         const idx = hitTest(x, y);
@@ -297,17 +299,19 @@
     }
 
     function handleKeyDown(e:KeyboardEvent) {
-        if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (focus) {
+            if (e.key === 'Delete' || e.key === 'Backspace') {
 
-            channel.update((ch) => {
-                $selectedNotes.forEach((note) => {
-                    ch.notes.splice(ch.notes.indexOf(note),1);
-                })
+                channel.update((ch) => {
+                    $selectedNotes.forEach((note) => {
+                        ch.notes.splice(ch.notes.indexOf(note), 1);
+                    })
 
-                return ch
-            });
+                    return ch
+                });
 
-            $selectedNotes = []
+                $selectedNotes = []
+            }
         }
 
         if (e.shiftKey) shift = e.shiftKey;
@@ -331,12 +335,17 @@
         bind:this={canvas}
         width={canvasWidth}
         height={totalHeight}
+        tabindex="0"
+
         on:dblclick={handleDblclick}
         on:click={handleClick}
         on:mousedown={handleMouseDown}
         on:mousemove={handleMouseMove}
         on:mouseup={handleMouseUp}
         on:mouseleave={handleMouseUp}
+
+        on:focus={() => focus = true}
+        on:blur={() => focus = false}
 />
 
 <style>
