@@ -158,7 +158,7 @@
 
         if(!$selectedNotes.includes(note)) {
             if (shift) {
-                $selectedNotes.push(note);
+                setSelectedNotes([...$selectedNotes, note]);
             }else {
                 setSelectedNotes([note])
             }
@@ -230,17 +230,17 @@
                 const y2 = (Math.max(anchorY, currentY)/cellHeight);
 
                 if (!shift) setSelectedNotes([])
-                const ls = $selectedNotes
+                const aggregated = new Set<Note>($selectedNotes);
                 $channel.notes.forEach((it, i) => {
                     // x1 <= 노트의 시작 <= x2 ||  x1 <= 노트의 끝 <= x2
                     // 노트와 시작 < x1 && x2 < 노트의 끝
                     // x1 <= 노트의 끝 && 노트의 시작 <= x2
                     if ((x1 <= (it.time + it.duration) && it.time <= x2) &&
                         (y1 - 1 <= pitchToNumber(it.midi) && pitchToNumber(it.midi) <= y2)) {
-                        ls.push(it);
+                        aggregated.push(it);
                     }
                 });
-                setSelectedNotes(ls)
+                setSelectedNotes(Array.from(aggregated));
             }
 
             currentX = 0; currentY = 0;
