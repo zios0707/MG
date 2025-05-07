@@ -47,6 +47,7 @@
     let shift = false;
     let focus = false;
     let dragBox = false;
+    let mounted = false;
 
     // Bulk width increments
     let prevBeats = 0;
@@ -63,6 +64,7 @@
 
     function draw(){
         if(!ctx) return;
+        if(!mounted) return;
         ctx.clearRect(0,0,canvasWidth,totalHeight);
         drawGrid();
         drawNotes();
@@ -114,6 +116,8 @@
     }
 
     onMount(()=>{
+        mounted = true;
+        
         ctx=canvas.getContext('2d');
         draw();
 
@@ -122,6 +126,7 @@
         window.addEventListener('keyup', handleKeyUp)
 
         return () => {
+            mounted = false;
             window.removeEventListener('scroll', trackingScrollX);
             window.removeEventListener('keydown', handleKeyDown)
             window.removeEventListener('keyup', handleKeyUp)
