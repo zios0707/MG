@@ -4,7 +4,7 @@ export default class Note { // tick 기준으로 함(어짜피 midi 출력은 �
     midi = $state(''); // 음 // string / 'C D E F...' + '1 2 3 4...'
     velocity = $state(0); // 세기 // 0 ~ 127
 
-    constructor(time, duration, midi, velocity) {
+    constructor(time, duration, midi, velocity = 100) {
         this.time = time;
         this.duration = duration;
         this.midi = midi;

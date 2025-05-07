@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
 
     const piano = Array.from({length: 7});
-    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+    const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].reverse();
 
     let keyboard;
 
@@ -54,7 +54,7 @@
                 {7 - i}
             </span>
             <div id="keyContainer">
-                {#each pitch.reverse() as item}
+                {#each pitch as item}
                     <div class:white={!isBlackNote(item)}
                         class:black={isBlackNote(item)}
                     >
