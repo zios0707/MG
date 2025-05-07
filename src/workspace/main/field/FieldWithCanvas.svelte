@@ -237,7 +237,7 @@
                     // x1 <= 노트의 끝 && 노트의 시작 <= x2
                     if ((x1 <= (it.time + it.duration) && it.time <= x2) &&
                         (y1 - 1 <= pitchToNumber(it.midi) && pitchToNumber(it.midi) <= y2)) {
-                        aggregated.push(it);
+                        aggregated.add(it);
                     }
                 });
                 setSelectedNotes(Array.from(aggregated));
