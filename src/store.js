@@ -1,5 +1,8 @@
 import {writable} from 'svelte/store'
-    
+
+export let midi = writable(false);
+export let brush = writable(false);
+
 export let isPlaying = writable(false);
 export let bpm = writable(120);
 export let tick = writable(0);

@@ -1,13 +1,30 @@
 <script>
+    import { onMount } from 'svelte';
+    import { brush } from '../../store.js';
 
-    let brushMode = false
+
+    function reverseBrush() {
+        $brush = !$brush
+    }
+
+    onMount(() => {
+        const fun = (e) => {
+            if (e.key === 'b' || e.key === 'B') reverseBrush()
+        }
+
+        window.addEventListener('keydown', fun)
+
+        return () => {
+            window.removeEventListener('keydown', fun)
+        }
+    })
 </script>
 
 <div id="brush"
-     on:click={() => brushMode = !brushMode}
+     on:click={reverseBrush}
 >
     <div id="icon"
-         class:on={brushMode}
+         class:on={$brush}
     >
         <object type="image/svg+xml" data="/icons/ic_sharp-brush.svg"></object>
     </div>
