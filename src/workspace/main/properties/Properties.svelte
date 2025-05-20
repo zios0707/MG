@@ -51,7 +51,7 @@
 
         function handleKeyDown(e:KeyboardEvent) {
             if (focus) {
-                if (Number.isNaN(Number(e.key))) {
+                if (!Number.isNaN(Number(e.key))) {
                     // TODO : 숫자 입력
                 }
             }
