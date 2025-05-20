@@ -26,9 +26,7 @@
     });
 </script>
 
-<div id="frame"
-    width={canvasWidth}
->
+<div id="frame">
     {#if $channel.trackId !== undefined}
         <Navigation/>
         <Properties bind:canvasWidth={canvasWidth} />
