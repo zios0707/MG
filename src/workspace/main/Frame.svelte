@@ -2,6 +2,8 @@
     import { onMount } from 'svelte';
     import { isShiftOn, channel } from '../../store.js';
 
+    let canvasWidth = 0;
+
     import Keyboard from './keyboard/Keyboard.svelte';
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
@@ -24,22 +26,25 @@
     });
 </script>
 
-<div id="frame">
-    <Navigation/>
-    <Properties/>
-    <Keyboard/>
-    {#if $channel.trackId !== undefined} <FieldWithCanvas/> {/if}
-    <LoopStation/>
+<div id="frame"
+    width={canvasWidth}
+>
+    {#if $channel.trackId !== undefined}
+        <Navigation/>
+        <Properties bind:canvasWidth={canvasWidth} />
+        <Keyboard/>
+        <FieldWithCanvas bind:canvasWidth={canvasWidth}/>
+        <LoopStation/>
+    {/if}
 </div>
 
 <style>
     #frame {
         width: 100%;
-
         margin-left: 290px;
 
         position: absolute;
-
+        display: inline-block;
         background: #444444;
     }
 </style>
