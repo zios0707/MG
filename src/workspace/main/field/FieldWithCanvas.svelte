@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { channel, selectedNotes } from '../../../store.js';
     import Note from '../../../class/Note.svelte.js';
+    export let canvasWidth
 
     // Grid cell sizing
     const cellWidth = 125; // px per beat
@@ -11,7 +12,6 @@
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
-    let canvasWidth = 0;
 
     const pitchNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 
@@ -95,7 +95,7 @@
         const y=pitchToNumber(note.midi)*cellHeight;
         const w=note.duration*cellWidth;
         const h=cellHeight-2;
-        ctx.fillStyle=$selectedNotes.includes(note)?'rgba(0,123,255,0.5)':'rgba(255,255,255,0.5)';
+        ctx.fillStyle=$selectedNotes.includes(note)?'#39c5bb':'rgba(255,255,255,0.5)';
         ctx.fillRect(x,y,w,h);
         ctx.strokeStyle=$selectedNotes.includes(note)?'#007bff':'#333';
         ctx.strokeRect(x,y,w,h);
@@ -354,5 +354,11 @@
 />
 
 <style>
-    canvas{margin-top:35px;display:inline-block;position:absolute;}
+    canvas{
+        margin-top:35px;
+        display:inline-block;
+        position:absolute;
+
+        background: #444444;
+    }
 </style>
