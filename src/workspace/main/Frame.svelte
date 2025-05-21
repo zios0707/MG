@@ -28,7 +28,7 @@
 
 <div id="frame">
     {#if $channel.trackId !== undefined}
-        <Navigation/>
+        <Navigation bind:canvasWidth={canvasWidth} />
         <Properties bind:canvasWidth={canvasWidth} />
         <Keyboard/>
         <FieldWithCanvas bind:canvasWidth={canvasWidth}/>
