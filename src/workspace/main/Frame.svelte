@@ -7,7 +7,6 @@
     import Keyboard from './keyboard/Keyboard.svelte';
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
-    import Field from './field/Field.svelte';
     import FieldWithCanvas from './field/FieldWithCanvas.svelte';
     import LoopStation from './loopStation/LoopStation.svelte';
 
@@ -27,7 +26,7 @@
 </script>
 
 <div id="frame">
-    {#if $channel.trackId !== undefined}
+    {#if $channel?.trackId !== undefined}
         <Navigation bind:canvasWidth={canvasWidth} />
         <Properties bind:canvasWidth={canvasWidth} />
         <Keyboard/>
@@ -38,7 +37,6 @@
 
 <style>
     #frame {
-        width: 100%;
         margin-left: 290px;
 
         position: absolute;

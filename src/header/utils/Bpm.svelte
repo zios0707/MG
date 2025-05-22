@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { bpm } from '../../store.js';
+    import { bpm } from '../../store.ts';
     import * as Tone from 'tone'
     let preValue;
 

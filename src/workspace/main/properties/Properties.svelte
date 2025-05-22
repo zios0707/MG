@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { channel, selectedNotes } from '../../../store.js';
+    import { channel, selectedNotes } from '../../../store.ts';
     import Note from '../../../class/Note.svelte.js';
-    export let canvasWidth
+    export let canvasWidth;
 
     const cellWidth = 125;
     const cellHeight = 25;
