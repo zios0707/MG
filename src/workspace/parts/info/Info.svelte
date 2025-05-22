@@ -51,7 +51,7 @@
 </script>
 
 <div id="info">
-    {#if $channel.trackId !== undefined}
+    {#if $channel?.trackId !== undefined}
         <div id="status"></div>
         <input type="text" id="name" autocomplete="off"
                on:click={(e) => e.stopPropagation()}
