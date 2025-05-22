@@ -51,7 +51,7 @@
         ctx.textAlign = 'center';       // left, right, center, start, end
         ctx.textBaseline = 'middle';    // top, hanging, middle, alphabetic, bottom 등
         ctx.fillStyle = 'white';
-        ctx.fillText((idx / 4) + 1, x + 10, 10)
+        ctx.fillText((idx / 4) + 1 + "", x + 10, 10)
     }
 
     function drawSmallGrid(idx: number) { // 작은 포인트 표시
