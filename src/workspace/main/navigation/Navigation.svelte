@@ -11,25 +11,28 @@
     let mounted = false;
     let focus = false;
 
-    $: {
-        if(canvas) canvas.width = canvasWidth;
-    }
+    let marginLeft = 165;
 
+    $: {
+        if(canvas) {
+        }
+    }
+    
     function draw() {
         if(!ctx) return;
         if(!mounted) return;
         ctx.clearRect(0,0,canvasWidth,35);
-
+    
         ctx.save();
         ctx.fillStyle='#5A5A5A';
         ctx.fillRect(0,0,canvasWidth,35);
         ctx.restore();
-
+    
         drawGrid()
-
+    
         requestAnimationFrame(draw);
     }
-
+    
     function drawGrid() {
         for (let i = 0; i < canvasWidth / cellWidth * 4; i++) {
             if (i % 4 === 0) {
@@ -39,42 +42,41 @@
             }
         }
     }
-
+    
     function drawBigGrid(idx: number) { // 큰 글씨로 1, 2, 3 이런거
         const x=idx*cellWidth/4;
-
+    
         ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,20);
         ctx.strokeStyle = "#A9A9A9";
         ctx.stroke();
-
+    
         ctx.font      = 'bold 16px "Pretendard", black';
         ctx.textAlign = 'center';       // left, right, center, start, end
         ctx.textBaseline = 'middle';    // top, hanging, middle, alphabetic, bottom 등
         ctx.fillStyle = 'white';
-        ctx.fillText((idx / 4) + 1 + "", x + 10, 10)
+        ctx.fillText(`${Math.floor(idx/16)}.${(idx / 4) % 4}`, x + 14, 10)
     }
-
+    
     function drawSmallGrid(idx: number) { // 작은 포인트 표시
         const x=idx*cellWidth/4;
-
+    
         ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,12);
         ctx.strokeStyle = "#A9A9A9";
         ctx.stroke();
-
+    
     }
-
+    
     onMount(() => {
         mounted = true;
-
+    
         ctx=canvas.getContext('2d');
         draw()
-
+    
         function trackingX() {
-            canvas.style.marginLeft = `${-window.scrollX + 165}px`;
+            marginLeft = -window.scrollX + 165;
         }
 
         window.addEventListener('scroll', trackingX);
-
         return () => {
             mounted = false;
             window.removeEventListener('scroll', trackingX);
@@ -91,7 +93,7 @@
             width={canvasWidth}
             height="30"
 
-            style="width: {canvasWidth}px; height: 30px"
+            style="width: {canvasWidth}px; margin-left: {marginLeft}px; height: 30px"
             tabindex="0"
 
             bind:this={canvas}

@@ -11,42 +11,43 @@
     let ctx: CanvasRenderingContext2D;
 
     let dragType: 'move' | 'drag' | null = null;
-
     let anchorY = 0;
-
-    let originalContexts = []
+    let originalContexts = [];
 
     let mounted = false;
     let shift = false;
     let focus = false;
 
-    $: {
-        if(canvas) canvas.width = canvasWidth;
-    }
+    let marginLeft = 165;
 
+    $: {
+        if(canvas) {
+        }
+    }
+    
     function draw(){
         if(!ctx) return;
         if(!mounted) return;
         ctx.clearRect(0,0,canvasWidth,50);
-
+    
         ctx.save();
         ctx.fillStyle='#cccccc';
         ctx.fillRect(0,0,canvasWidth,50);
         ctx.restore();
-
+    
         drawNotes();
-
+    
         requestAnimationFrame(draw);
     }
-
+    
     onMount(() => {
         mounted = true;
-
+    
         ctx=canvas.getContext('2d');
         draw();
-
+    
         function trackingX() {
-            canvas.style.marginLeft = `${-window.scrollX + 165}px`;
+            marginLeft = window.scrollX;
         }
 
         function handleKeyDown(e:KeyboardEvent) {
@@ -74,7 +75,6 @@
             window.removeEventListener('keyup', handleKeyUp);
         }
     });
-
 
     function drawNotes() {
         $channel.notes.forEach(drawSingleNote);
@@ -113,7 +113,7 @@
     function hitTest(x:number,y:number) {
         return $channel.notes.findIndex(note=>{
             const nx=note.time*cellWidth;
-            const ny=50-note.velocity/127*50;
+            const ny=(127-note.velocity)/127*50;
             const diff=6;
             return x>=nx-diff && x<=nx+diff && y>=ny-diff && y<=ny+diff;
         });
@@ -170,7 +170,6 @@
     }
 
     function handleMouseUp(e:MouseEvent) {
-
         dragType = null;
     }
 
@@ -186,21 +185,16 @@
     <div id="block"></div>
     <canvas
             id="properties"
-
             width={canvasWidth}
             height="50"
-
-            style="width: {canvasWidth}px; height: 50px"
+            style="width: {canvasWidth}px; margin-left: {-marginLeft + 165}px; height: 50px"
             tabindex="0"
-
             bind:this={canvas}
-
             on:click={handleClick}
             on:mousedown={handleMouseDown}
             on:mousemove={handleMouseMove}
             on:mouseup={handleMouseUp}
             on:mouseleave={handleMouseUp}
-
             on:focus={() => focus = true}
             on:blur={() => focus = false}
     /> <!-- velocity -->
@@ -210,15 +204,10 @@
     #container {
         height: 50px;
         z-index: 8;
-
         padding-left: 290px;
-
         display: inline-flex;
-
         justify-content: space-between;
-
         position: fixed;
-
         left: 0;
         bottom: 0;
     }
@@ -226,20 +215,15 @@
     #block {
         width: 165px;
         height: 100%;
-
         display: inline-block;
         position: fixed;
-
         flex-shrink: 0;
-
         background: #999999;
     }
 
     #properties {
         height: 100%;
-
         margin-left: 165px;
-
-        display:inline-block;
+        display: inline-block;
     }
 </style>
