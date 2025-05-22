@@ -1,5 +1,5 @@
 <script>
-    import { isPlaying, channel, bpm } from '../../store.js';
+    import { isPlaying, channel, bpm } from '../../store.ts';
     import * as Tone from 'tone';
 
     const play = document.querySelector('#play');

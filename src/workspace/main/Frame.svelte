@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { isShiftOn, channel } from '../../store.js';
+    import { isShiftOn, channel } from '../../store.ts';
 
     let canvasWidth = 0;
 

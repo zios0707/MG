@@ -1,5 +1,5 @@
 <script>
-    import { channel } from '../../../store.js'
+    import { channel } from '../../../store.ts'
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
 

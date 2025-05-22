@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { midi } from '../../store.js';
+    import { midi } from '../../store.ts';
 
 
     function reverseMidi() {

@@ -1,5 +1,5 @@
 <script>
-    import { tick } from '../../store.js';
+    import { tick } from '../../store.ts';
 </script>
 
 <div id="time">

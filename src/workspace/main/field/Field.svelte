@@ -1,5 +1,5 @@
 <script>
-    import { channel, isShiftOn, selectedNotes } from '../../../store.js';
+    import { channel, isShiftOn, selectedNotes } from '../../../store.ts';
     import Marks from './Marks.svelte'
 
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];

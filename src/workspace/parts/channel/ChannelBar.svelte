@@ -1,5 +1,5 @@
 <script>
-    import { channel } from '../../../store.js';
+    import { channel } from '../../../store.ts';
     import Channel from '../../../class/Channel.svelte.js';
     import ChannelComp from './Channel.svelte';
 

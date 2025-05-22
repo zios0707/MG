@@ -1,5 +1,5 @@
 <script>
-    import { channel } from '../../../store.js';
+    import { channel } from '../../../store.ts';
     import Note from '../../../class/Note.svelte.js'
     export let pitch;
 
