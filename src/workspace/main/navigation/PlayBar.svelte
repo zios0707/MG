@@ -42,16 +42,6 @@
         );
     }
 
-    // 플레이헤드가 화면 밖으로 이동할 때 자동 스크롤이 필요한지 확인
-    function checkAutoScroll() {
-        const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const currentPosition = $tick * (cellWidth / (ticksPerMeasure / 16));
-        const viewportRight = window.scrollX + window.innerWidth - baseMarginLeft;
-        if (currentPosition > viewportRight - 100) {
-            window.scrollBy({ left: cellWidth / 2, behavior: 'smooth' });
-        }
-    }
-
     // 스크롤 위치가 변경될 때 플레이바 위치 업데이트
     function updateMarginOnScroll() {
         marginLeft = -window.scrollX + baseMarginLeft;
@@ -121,11 +111,6 @@
     // 틱 값이 변경될 때 플레이바 다시 그리기
     $: if (mounted && ctx && $tick !== undefined) {
         drawPlayBar();
-
-        // 재생 중 자동 스크롤이 필요한지 확인
-        if ($isPlaying) {
-            checkAutoScroll();
-        }
     }
 
     // canvasWidth prop이 변경될 때 캔버스 너비 업데이트
