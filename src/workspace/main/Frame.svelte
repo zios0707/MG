@@ -9,6 +9,7 @@
     import Properties from './properties/Properties.svelte';
     import FieldWithCanvas from './field/FieldWithCanvas.svelte';
     import LoopStation from './loopStation/LoopStation.svelte';
+    import PlayBar from './navigation/PlayBar.svelte';
 
     onMount(() => {
         function flipShift(e) {
@@ -28,6 +29,7 @@
 <div id="frame">
     {#if $channel?.trackId !== undefined}
         <Navigation bind:canvasWidth={canvasWidth} />
+        <PlayBar bind:canvasWidth={canvasWidth} />
         <Properties bind:canvasWidth={canvasWidth} />
         <Keyboard/>
         <FieldWithCanvas bind:canvasWidth={canvasWidth}/>
