@@ -25,12 +25,16 @@
         $channel.notes
             .filter(note => note.time >= startTime)
             .forEach(note => {
-                synth.triggerAttackRelease(
-                    note.midi,
-                    timeOnBpm(note.duration),
-                    now + timeOnBpm(note.time - startTime),
-                    note.velocity / 127
-                );
+                try {
+                    synth.triggerAttackRelease(
+                        note.midi,
+                        timeOnBpm(note.duration),
+                        now + timeOnBpm(note.time - startTime),
+                        note.velocity / 127
+                    );
+                }catch (e) {
+                    console.warn(`노트 재생 실패 : ${note.midi} - ${note.velocity}`, e)
+                }
             });
     }
 
