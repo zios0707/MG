@@ -64,26 +64,4 @@ export default class Channel {
     deleteId() {
         channelIds.delete(this.trackId);
     }
-
-    /**
-     * 새 노트를 채널에 추가합니다
-     * @param {number} position - 노트 시작 위치
-     * @param {number} duration - 노트 지속 시간
-     * @param {string} pitch - 노트 음높이
-     * @param {number} velocity - 노트 세기 (0-127)
-     */
-    addNote(position, duration, pitch, velocity = 100) {
-        this.notes = [...this.notes, new Note(position, duration, pitch, velocity)];
-    }
-
-    /**
-     * ID로 노트를 찾아 제거합니다
-     * @param {string} noteId - 제거할 노트의 ID
-     * @returns {boolean} 노트 제거 성공 여부
-     */
-    removeNote(noteId) {
-        const initialLength = this.notes.length;
-        this.notes = this.notes.filter(note => note.id !== noteId);
-        return this.notes.length < initialLength;
-    }
 }
