@@ -92,6 +92,21 @@
     // 키보드 단축키 설정 및 컴포넌트 소멸 시 정리
     const keyboardCleanup = setupKeyboardShortcuts();
 
+    // BPM 변경 감지를 위한 변수
+    let previousBpm = $bpm;
+
+    // 재생 중 BPM 변경시 (오직 BPM 변경에만 반응)
+    $: if ($bpm !== previousBpm && $isPlaying) {
+        storePause() // 포지션은 초기화되면 안됨
+
+        // 다시 재생
+        storePlay($tick);
+        play($tick);
+
+        // 현재 BPM 값 저장
+        previousBpm = $bpm;
+    }
+
     onDestroy(() => {
         keyboardCleanup();
         unregisterCleanup();
