@@ -1,10 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { setPosition, beatsPerMeasure, ticksPerBeat, pause, isPlaying } from '../../../store.ts';
+    import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from './constants.js';
     export let canvasWidth;
 
-    const cellWidth = 125;
-    const barHeight = 30;
+    // 네비게이션 크기 및 위치 상수 (imported from constants.js)
+    const cellWidth = CELL_WIDTH;
+    const barHeight = BAR_HEIGHT;
+    const baseMarginLeft = BASE_MARGIN_LEFT;
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
@@ -12,13 +15,11 @@
     let mounted = false;
     let focus = false;
 
-    let marginLeft = 165;
+    let marginLeft = baseMarginLeft;
 
     // ESC 키 연속 입력 감지를 위한 변수
     let lastEscTime = 0;
     const doubleEscDelay = 500; // 연속 입력 간격(ms)
-
-    // 캔버스가 변경될 때 필요한 로직은 onMount에서 처리합니다.
 
     // 다시 그리기가 필요한지 추적하는 플래그
     let needsRedraw = true;
@@ -113,7 +114,7 @@
 
         // 클릭한 위치를 tick으로 변환
         const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const clickedTick = (x / (cellWidth)) * (ticksPerMeasure / 16);
+        const clickedTick = (x / cellWidth) * (ticksPerMeasure / 16);
 
         // 위치 설정
         setPosition(clickedTick);
@@ -148,7 +149,7 @@
         draw();
 
         function trackingX() {
-            marginLeft = -window.scrollX + 165;
+            marginLeft = -window.scrollX + baseMarginLeft;
             requestRedraw();
         }
 
@@ -169,7 +170,7 @@
     <canvas
             id="navigation"
             width={canvasWidth}
-            height="30"
+            height={barHeight}
             style="width: {canvasWidth}px; margin-left: {marginLeft}px;"
             tabindex="0"
             bind:this={canvas}
@@ -181,7 +182,7 @@
 
 <style>
     #container {
-        height: 30px;
+        height: 30px; /* barHeight */
         z-index: 1;
         display: inline-block;
         position: fixed;
@@ -189,14 +190,14 @@
 
     #navigation {
         height: 100%;
-        margin-left: 165px;
+        margin-left: 165px; /* baseMarginLeft */
         display: inline-block;
         cursor: pointer;
     }
 
     #block {
-        width: 165px;
-        height: 30px;
+        width: 165px; /* baseMarginLeft */
+        height: 30px; /* barHeight */
         z-index: 8;
         display: inline-block;
         position: fixed;

@@ -1,12 +1,13 @@
 <script lang="ts">
     import { onMount } from 'svelte';
     import { tick, setPosition, isPlaying, timeSignature, beatsPerMeasure, ticksPerBeat, pause } from '../../../store.ts';
+    import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from './constants.js';
     export let canvasWidth;
 
-    // 플레이바 크기 및 위치 상수
-    const cellWidth = 125;
-    const barHeight = 30;
-    const baseMarginLeft = 165;
+    // 플레이바 크기 및 위치 상수 (imported from constants.js)
+    const cellWidth = CELL_WIDTH;
+    const barHeight = BAR_HEIGHT;
+    const baseMarginLeft = BASE_MARGIN_LEFT;
 
     // 캔버스 및 렌더링 변수
     let canvas: HTMLCanvasElement;
