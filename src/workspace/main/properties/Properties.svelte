@@ -24,30 +24,60 @@
         if(canvas) {
         }
     }
-    
+
+    // 다시 그리기가 필요한지 추적하는 플래그
+    let needsRedraw = true;
+
+    // 채널 노트 또는 선택된 노트의 변경 감시
+    $: {
+        $channel;
+        $selectedNotes;
+        if (mounted) requestRedraw();
+    }
+
+    // canvasWidth 변경 감시
+    $: {
+        canvasWidth;
+        if (mounted) requestRedraw();
+    }
+
     function draw(){
         if(!ctx) return;
         if(!mounted) return;
-        ctx.clearRect(0,0,canvasWidth,50);
-    
-        ctx.save();
-        ctx.fillStyle='#cccccc';
-        ctx.fillRect(0,0,canvasWidth,50);
-        ctx.restore();
-    
-        drawNotes();
-    
+
+        // 필요한 경우에만 다시 그리기
+        if (needsRedraw) {
+            ctx.clearRect(0,0,canvasWidth,50);
+
+            ctx.save();
+            ctx.fillStyle='#cccccc';
+            ctx.fillRect(0,0,canvasWidth,50);
+            ctx.restore();
+
+            drawNotes();
+
+            // 그리기 후 플래그 재설정
+            needsRedraw = false;
+        }
+
         requestAnimationFrame(draw);
     }
-    
+
+    // 다시 그리기를 요청하는 함수
+    function requestRedraw() {
+        needsRedraw = true;
+    }
+
     onMount(() => {
         mounted = true;
-    
+
         ctx=canvas.getContext('2d');
+        requestRedraw();
         draw();
-    
+
         function trackingX() {
             marginLeft = window.scrollX;
+            requestRedraw();
         }
 
         function handleKeyDown(e:KeyboardEvent) {
@@ -120,7 +150,8 @@
     }
 
     function handleClick(e:MouseEvent) {
-        //TODO : ...
+        //TODO : 구현 예정
+        requestRedraw();
     }
 
     function handleMouseDown(e:MouseEvent) {
@@ -145,6 +176,8 @@
                 note: n,
                 velocity: n.velocity
             }))
+
+            requestRedraw();
         }
     }
 
@@ -160,17 +193,19 @@
 
 
                     note.velocity = Math.min(127, Math.max(0, velocity + diff));
-
-                    drawSingleNote(note);
                 }
 
+                requestRedraw();
                 return ch
             })
         }
     }
 
     function handleMouseUp(e:MouseEvent) {
-        dragType = null;
+        if (dragType) {
+            dragType = null;
+            requestRedraw();
+        }
     }
 
     function setSelectedNotes(notes:Note[]) {
@@ -178,6 +213,7 @@
             ls = [...notes]
             return ls
         });
+        requestRedraw();
     }
 </script>
 

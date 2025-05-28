@@ -14,37 +14,55 @@
     let marginLeft = baseMarginLeft;
     let mounted = false;
 
+    // 다시 그리기가 필요한지 추적하는 플래그
+    let needsRedraw = true;
+
     // 현재 위치로 플레이바 렌더링
     function drawPlayBar() {
         if (!ctx) return;
+        if (!mounted) return;
 
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // 필요한 경우에만 다시 그리기
+        if (needsRedraw) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Navigation과 동일한 공식을 사용하여 틱 값을 기반으로 위치 계산
-        const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const currentPosition = $tick * (cellWidth / (ticksPerMeasure / 16));
+            // Navigation과 동일한 공식을 사용하여 틱 값을 기반으로 위치 계산
+            const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
+            const currentPosition = $tick * (cellWidth / (ticksPerMeasure / 16));
 
-        // 재생 위치 라인 그리기
-        ctx.beginPath();
-        ctx.moveTo(currentPosition, 0);
-        ctx.lineTo(currentPosition, barHeight);
-        ctx.strokeStyle = '#33ccff';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+            // 재생 위치 라인 그리기
+            ctx.beginPath();
+            ctx.moveTo(currentPosition, 0);
+            ctx.lineTo(currentPosition, barHeight);
+            ctx.strokeStyle = '#33ccff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
 
-        // 현재 시간 표시
-        ctx.fillStyle = 'white';
-        ctx.font = '12px Arial';
-        ctx.fillText(
-            `${$timeSignature.bar}.${$timeSignature.beat}.${$timeSignature.sixteenth}`, 
-            currentPosition + 5, 
-            30
-        );
+            // 현재 시간 표시
+            ctx.fillStyle = 'white';
+            ctx.font = '12px Arial';
+            ctx.fillText(
+                `${$timeSignature.bar}.${$timeSignature.beat}.${$timeSignature.sixteenth}`, 
+                currentPosition + 5, 
+                30
+            );
+
+            // 그리기 후 플래그 재설정
+            needsRedraw = false;
+        }
+
+        requestAnimationFrame(drawPlayBar);
+    }
+
+    // 다시 그리기를 요청하는 함수
+    function requestRedraw() {
+        needsRedraw = true;
     }
 
     // 스크롤 위치가 변경될 때 플레이바 위치 업데이트
     function updateMarginOnScroll() {
         marginLeft = -window.scrollX + baseMarginLeft;
+        requestRedraw();
     }
 
     // 드래그 상태 변수
@@ -66,6 +84,8 @@
         if ($isPlaying) {
             pause();
         }
+
+        requestRedraw();
     }
 
     // 드래그 시작 처리
@@ -97,6 +117,7 @@
 
         // 위치 업데이트
         setPosition(newTick);
+        requestRedraw();
     }
 
     // 드래그 종료 처리
@@ -106,17 +127,31 @@
         // 이벤트 리스너 제거
         document.removeEventListener('mousemove', handleMouseMove);
         document.removeEventListener('mouseup', handleMouseUp);
+
+        requestRedraw();
     }
 
     // 틱 값이 변경될 때 플레이바 다시 그리기
-    $: if (mounted && ctx && $tick !== undefined) {
-        drawPlayBar();
+    $: {
+        $tick;
+        $timeSignature;
+        if (mounted) requestRedraw();
     }
 
     // canvasWidth prop이 변경될 때 캔버스 너비 업데이트
-    $: if (mounted && canvas) {
-        canvas.width = canvasWidth;
-        drawPlayBar();
+    $: {
+        canvasWidth;
+        if (mounted && canvas) {
+            canvas.width = canvasWidth;
+            requestRedraw();
+        }
+    }
+
+    // beatsPerMeasure와 ticksPerBeat 변경 감시
+    $: {
+        $beatsPerMeasure;
+        $ticksPerBeat;
+        if (mounted) requestRedraw();
     }
 
     onMount(() => {
@@ -126,6 +161,7 @@
         ctx = canvas.getContext('2d');
         canvas.width = canvasWidth;
         canvas.height = barHeight;
+        requestRedraw();
         drawPlayBar();
 
         // 이벤트 리스너 추가
