@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { tick, setPosition, isPlaying, timeSignature, beatsPerMeasure, ticksPerBeat, pause } from '../../../store.ts';
+    import { tick, setPosition, isPlaying, timeSignature, beatsPerMeasure, ticksPerBeat, pause, tickToPixel, pixelToTick } from '../../../store.ts';
     import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from './constants.js';
     export let canvasWidth;
 
@@ -27,9 +27,8 @@
         if (needsRedraw) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Navigation과 동일한 공식을 사용하여 틱 값을 기반으로 위치 계산
-            const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-            const currentPosition = $tick * (cellWidth / (ticksPerMeasure / 16));
+            // 틱 값을 기반으로 위치 계산 (중앙화된 함수 사용)
+            const currentPosition = tickToPixel($tick, cellWidth);
 
             // 재생 위치 라인 그리기
             ctx.beginPath();
@@ -74,9 +73,8 @@
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
 
-        // Navigation과 동일한 공식을 사용하여 클릭 위치를 틱으로 변환
-        const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const newTick = (x / cellWidth) * (ticksPerMeasure / 16);
+        // 클릭 위치를 틱으로 변환 (중앙화된 함수 사용)
+        const newTick = pixelToTick(x, cellWidth);
 
         // 이미 틱 값 설정을 처리하는 setPosition 사용
         setPosition(newTick);
@@ -108,8 +106,7 @@
         const rect = canvas.getBoundingClientRect();
         const x = Math.max(0, Math.min(e.clientX - rect.left, canvas.width));
 
-        const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const newTick = (x / cellWidth) * (ticksPerMeasure / 16);
+        const newTick = pixelToTick(x, cellWidth);
 
         // 재생 중이면 재생 중지 (드래그 시작 시 항상 재생 중지)
         if ($isPlaying) {

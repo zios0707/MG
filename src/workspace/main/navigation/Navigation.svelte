@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { setPosition, beatsPerMeasure, ticksPerBeat, pause, isPlaying } from '../../../store.ts';
+    import { setPosition, beatsPerMeasure, ticksPerBeat, pause, isPlaying, pixelToTick } from '../../../store.ts';
     import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from './constants.js';
     export let canvasWidth;
 
@@ -112,9 +112,8 @@
         const rect = canvas.getBoundingClientRect();
         const x = e.clientX - rect.left;
 
-        // 클릭한 위치를 tick으로 변환
-        const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-        const clickedTick = (x / cellWidth) * (ticksPerMeasure / 16);
+        // 클릭한 위치를 tick으로 변환 (중앙화된 함수 사용)
+        const clickedTick = pixelToTick(x, cellWidth);
 
         // 위치 설정
         setPosition(clickedTick);

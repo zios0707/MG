@@ -19,17 +19,21 @@ export const elapsedSeconds = writable(0);
 export const beatsPerMeasure = writable(4);  // 한 마디당 박자 수 (기본값 4)
 export const ticksPerBeat = writable(4);     // 한 박자당 틱 수 (기본값 4)
 
+// 한 마디당 틱 수를 계산하는 파생 저장소
+export const ticksPerMeasure = derived(
+  [beatsPerMeasure, ticksPerBeat],
+  ([$beatsPerMeasure, $ticksPerBeat]) => $beatsPerMeasure * $ticksPerBeat
+);
+
 // 박자표 표시를 위한 파생 저장소
 export const timeSignature = derived(
-  [tick, beatsPerMeasure, ticksPerBeat],
-  ([$tick, $beatsPerMeasure, $ticksPerBeat]) => {
+  [tick, ticksPerMeasure, ticksPerBeat],
+  ([$tick, $ticksPerMeasure, $ticksPerBeat]) => {
     const totalTicks = Math.floor($tick);
 
     // 틱을 마디, 박자, 하위 틱으로 변환
-    const ticksPerMeasure = $beatsPerMeasure * $ticksPerBeat;
-
-    const measure = Math.floor(totalTicks / ticksPerMeasure);
-    const remainingTicks = totalTicks % ticksPerMeasure;
+    const measure = Math.floor(totalTicks / $ticksPerMeasure);
+    const remainingTicks = totalTicks % $ticksPerMeasure;
     const beat = Math.floor(remainingTicks / $ticksPerBeat);
     const remainingSubTicks = remainingTicks % $ticksPerBeat;
 
@@ -111,4 +115,21 @@ function updateTick() {
       updateTick();
     }
   });
+}
+
+// 비반응형 컨텍스트에서 ticksPerMeasure 값을 가져오는 함수
+export function getTicksPerMeasure() {
+  return get(beatsPerMeasure) * get(ticksPerBeat);
+}
+
+// 픽셀 위치를 틱으로 변환하는 함수
+export function pixelToTick(pixelX, cellWidth) {
+  const tpm = get(ticksPerMeasure);
+  return (pixelX / cellWidth) * (tpm / 16);
+}
+
+// 틱을 픽셀 위치로 변환하는 함수
+export function tickToPixel(tickValue, cellWidth) {
+  const tpm = get(ticksPerMeasure);
+  return tickValue * (cellWidth / (tpm / 16));
 }
