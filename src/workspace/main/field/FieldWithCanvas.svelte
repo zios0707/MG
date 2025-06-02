@@ -236,7 +236,7 @@
             for (const ctx of originalContexts){
                 const {note, time, duration, row} = ctx;
                 const dx=(x-anchorX) / cellWidth;
-``
+                
                 if (dragType === 'move') {
                     const dy=(y-anchorY) / cellHeight;
                     note.time=Math.max(0,time+dx);
