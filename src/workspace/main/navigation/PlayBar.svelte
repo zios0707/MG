@@ -158,6 +158,10 @@
 
         // 캔버스 초기화
         ctx = canvas.getContext('2d');
+        if (!ctx) {
+            console.error('캔버스 컨텍스트 로딩에 실패했습니다');
+            return;
+        }
         canvas.width = canvasWidth;
         canvas.height = barHeight;
         requestRedraw();
