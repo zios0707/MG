@@ -1,17 +1,18 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { channel, selectedNotes } from '../../../store.js';
+    import { channel, selectedNotes } from '../../../store.ts';
     import Note from '../../../class/Note.svelte.js';
     export let canvasWidth
 
-    // Grid cell sizing
-    const cellWidth = 125; // px per beat
+    // 그리드 셀 크기 설정
+    const cellWidth = 125; // 비트당 픽셀
     const cellHeight = 25;
     const rows = 84;
     const totalHeight = cellHeight * rows;
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
+    let animationFrameId;
 
     const pitchNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 
@@ -29,7 +30,7 @@
         return 83 - semitone;
     }
 
-    // Drag & resize state
+    // 드래그 & 크기 조절 상태
     let dragType: 'move' | 'resize-left' | 'resize-right' | 'drag' | null = null;
 
     let anchorX = 0;
@@ -49,7 +50,7 @@
     let dragBox = false;
     let mounted = false;
 
-    // Bulk width increments
+    // 너비 일괄 증가
     let prevBeats = 0;
     $: {
         const notes = $channel.notes;
@@ -58,19 +59,44 @@
         if (beats!==prevBeats) {
             prevBeats=beats;
             canvasWidth = beats*cellWidth;
-            if(canvas) canvas.width=canvasWidth;
+            if(canvas) {
+                canvas.width=canvasWidth;
+                requestRedraw();
+            }
         }
+    }
+
+    // 다시 그리기가 필요한지 추적하는 플래그
+    let needsRedraw = true;
+
+    // 채널 노트 또는 선택된 노트의 변경 감시
+    $: {
+        $channel;
+        $selectedNotes;
+        requestRedraw();
     }
 
     function draw(){
         if(!ctx) return;
         if(!mounted) return;
-        ctx.clearRect(0,0,canvasWidth,totalHeight);
-        drawGrid();
-        drawNotes();
-        if (dragType == 'drag') drawDrag()
 
-        requestAnimationFrame(draw);
+        // 필요한 경우에만 다시 그리기
+        if (needsRedraw) {
+            ctx.clearRect(0,0,canvasWidth,totalHeight);
+            drawGrid();
+            drawNotes();
+            if (dragType == 'drag') drawDrag();
+
+            // 그리기 후 플래그 재설정
+            needsRedraw = false;
+        }
+
+        animationFrameId = requestAnimationFrame(draw);
+    }
+
+    // 다시 그리기를 요청하는 함수
+    function requestRedraw() {
+        needsRedraw = true;
     }
 
     function drawGrid(){
@@ -117,8 +143,13 @@
 
     onMount(()=>{
         mounted = true;
-        
+
         ctx=canvas.getContext('2d');
+        if (!ctx) {
+            console.error('캔버스 컨텍스트 로딩에 실패했습니다');
+            return;
+        }
+        requestRedraw();
         draw();
 
         window.addEventListener('scroll', trackingScrollX)
@@ -127,6 +158,9 @@
 
         return () => {
             mounted = false;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
             window.removeEventListener('scroll', trackingScrollX);
             window.removeEventListener('keydown', handleKeyDown)
             window.removeEventListener('keyup', handleKeyUp)
@@ -197,7 +231,7 @@
         if (dragType === 'drag') {
             currentX = x; currentY = y;
             dragBox = true;
-            draw();
+            requestRedraw();
             return;
         }
 
@@ -206,7 +240,7 @@
             for (const ctx of originalContexts){
                 const {note, time, duration, row} = ctx;
                 const dx=(x-anchorX) / cellWidth;
-
+                
                 if (dragType === 'move') {
                     const dy=(y-anchorY) / cellHeight;
                     note.time=Math.max(0,time+dx);
@@ -218,9 +252,8 @@
                     note.time=Math.max(0, Math.min(time+dx, time+duration - 0.1));
                     if (note.time !== 0) note.duration=Math.max(0.1,duration-dx);
                 }
-
-                drawSingleNote(note)
             }
+            requestRedraw();
             return ch;
         })
     }
@@ -251,7 +284,7 @@
             currentX = 0; currentY = 0;
 
             dragType=null;
-            draw()
+            requestRedraw();
         }
     }
 
@@ -274,7 +307,7 @@
                 return ch;
             })
 
-            drawSingleNote(newNote)
+            requestRedraw();
             setSelectedNotes([newNote])
         }else {
             channel.update((ch) => {
@@ -283,7 +316,7 @@
                 return ch;
             })
 
-            draw()
+            requestRedraw();
         }
     }
 
@@ -295,6 +328,7 @@
             if (dragBox) {dragBox = false; return}
             if (dragType) return
             setSelectedNotes([])
+            requestRedraw();
             return
         }
     }
@@ -316,6 +350,7 @@
                 });
 
                 $selectedNotes = []
+                requestRedraw();
             }
         }
 
@@ -332,6 +367,7 @@
             ls = [...notes]
             return ls
         });
+        requestRedraw();
     }
 
 </script>
@@ -355,7 +391,7 @@
 
 <style>
     canvas{
-        margin-top:35px;
+        margin-top:30px;
         display:inline-block;
         position:absolute;
 

@@ -1,12 +1,16 @@
 import Note from './Note.svelte.js'
 
-let ids = new Set();
+// 전역 ID 집합 - 채널 ID 충돌 방지용
+const channelIds = new Set();
 
+/**
+ * 오디오 채널을 나타내는 클래스
+ */
 export default class Channel {
     trackId = $state(this.getNextId());
     name = $state("# default track");
 
-    /** @type Note[] */
+    /** @type {Note[]} */
     notes = $state([
         new Note(0, 0.5, 'G#4', 100),
         new Note(0.5, 0.25, 'G#4', 100),
@@ -38,18 +42,26 @@ export default class Channel {
         new Note(7.75, 0.25, 'C#4', 100)
     ]);
 
+    // 채널 오디오 속성
     volume = $state(0);
     mute = $state(false);
     solo = $state(false);
 
+    /**
+     * 사용 가능한 다음 채널 ID를 가져옵니다
+     * @returns {number} 새로운 고유 채널 ID
+     */
     getNextId() {
         let id = 0;
-        while (ids.has(id)) id++;
-        ids.add(id)
+        while (channelIds.has(id)) id++;
+        channelIds.add(id);
         return id;
     }
 
+    /**
+     * 채널이 삭제될 때 ID를 재사용 가능하도록 해제합니다
+     */
     deleteId() {
-        ids.delete(this.trackId)
+        channelIds.delete(this.trackId);
     }
 }

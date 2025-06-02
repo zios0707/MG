@@ -1,5 +1,5 @@
 <script>
-    import { channel } from '../../../store.js'
+    import { channel } from '../../../store.ts'
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
 
@@ -51,7 +51,7 @@
 </script>
 
 <div id="info">
-    {#if $channel.trackId !== undefined}
+    {#if $channel?.trackId !== undefined}
         <div id="status"></div>
         <input type="text" id="name" autocomplete="off"
                on:click={(e) => e.stopPropagation()}

@@ -1,6 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import { brush } from '../../store.js';
+    import { brush } from '../../store.ts';
 
 
     function reverseBrush() {

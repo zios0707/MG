@@ -8,11 +8,15 @@
 
     function deleteChannel(e) {
         e.stopPropagation();
-        dispatcher('delete', { value: channel.trackId});
+        if (channel) {
+            dispatcher('delete', { value: channel.trackId});
+        }
     }
 
     function selectChannel() {
-        dispatcher('select', { value: channel});
+        if (channel) {
+            dispatcher('select', { value: channel});
+        }
     }
 
     function pickChannel(e) {
@@ -29,7 +33,7 @@
 
 <div
         class="channel"
-        id={(selected) ? 'selected' : null}
+        id={(selected && channel) ? 'selected' : null}
         on:click={pickChannel}
         on:dblclick={selectChannel}
 >
@@ -42,10 +46,10 @@
     <div id="buttons">
         <button
                 id="mute"
-                class:on={channel.mute}
-                on:click={() => channel.mute = !channel.mute}
+                class:on={channel?.mute}
+                on:click={() => channel && (channel.mute = !channel.mute)}
         >
-            {#if channel.mute}
+            {#if channel?.mute}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m.svg"></object>
@@ -53,11 +57,11 @@
         </button>
         <button
                 id="solo"
-                class:on={channel.solo}
-                on:click={() => channel.solo = !channel.solo}
+                class:on={channel?.solo}
+                on:click={() => channel && (channel.solo = !channel.solo)}
         >
-
-            {#if channel.solo}
+    
+            {#if channel?.solo}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg"></object>
             {:else}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-S.svg"></object>

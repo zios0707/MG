@@ -1,8 +1,8 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { channel, selectedNotes } from '../../../store.js';
+    import { channel, selectedNotes } from '../../../store.ts';
     import Note from '../../../class/Note.svelte.js';
-    export let canvasWidth
+    export let canvasWidth;
 
     const cellWidth = 125;
     const cellHeight = 25;
@@ -11,42 +11,73 @@
     let ctx: CanvasRenderingContext2D;
 
     let dragType: 'move' | 'drag' | null = null;
-
     let anchorY = 0;
-
-    let originalContexts = []
+    let originalContexts = [];
 
     let mounted = false;
     let shift = false;
     let focus = false;
 
+    let marginLeft = 165;
+
     $: {
-        if(canvas) canvas.width = canvasWidth;
+        if(canvas) {
+        }
+    }
+
+    // 다시 그리기가 필요한지 추적하는 플래그
+    let needsRedraw = true;
+
+    // 채널 노트 또는 선택된 노트의 변경 감시
+    $: {
+        $channel;
+        $selectedNotes;
+        if (mounted) requestRedraw();
+    }
+
+    // canvasWidth 변경 감시
+    $: {
+        canvasWidth;
+        if (mounted) requestRedraw();
     }
 
     function draw(){
         if(!ctx) return;
         if(!mounted) return;
-        ctx.clearRect(0,0,canvasWidth,50);
 
-        ctx.save();
-        ctx.fillStyle='#cccccc';
-        ctx.fillRect(0,0,canvasWidth,50);
-        ctx.restore();
+        // 필요한 경우에만 다시 그리기
+        if (needsRedraw) {
+            ctx.clearRect(0,0,canvasWidth,50);
 
-        drawNotes();
+            ctx.save();
+            ctx.fillStyle='#cccccc';
+            ctx.fillRect(0,0,canvasWidth,50);
+            ctx.restore();
+
+            drawNotes();
+
+            // 그리기 후 플래그 재설정
+            needsRedraw = false;
+        }
 
         requestAnimationFrame(draw);
+    }
+
+    // 다시 그리기를 요청하는 함수
+    function requestRedraw() {
+        needsRedraw = true;
     }
 
     onMount(() => {
         mounted = true;
 
         ctx=canvas.getContext('2d');
+        requestRedraw();
         draw();
 
         function trackingX() {
-            canvas.style.marginLeft = `${-window.scrollX + 165}px`;
+            marginLeft = window.scrollX;
+            requestRedraw();
         }
 
         function handleKeyDown(e:KeyboardEvent) {
@@ -74,7 +105,6 @@
             window.removeEventListener('keyup', handleKeyUp);
         }
     });
-
 
     function drawNotes() {
         $channel.notes.forEach(drawSingleNote);
@@ -113,14 +143,15 @@
     function hitTest(x:number,y:number) {
         return $channel.notes.findIndex(note=>{
             const nx=note.time*cellWidth;
-            const ny=50-note.velocity/127*50;
+            const ny=(127-note.velocity)/127*50;
             const diff=6;
             return x>=nx-diff && x<=nx+diff && y>=ny-diff && y<=ny+diff;
         });
     }
 
     function handleClick(e:MouseEvent) {
-        //TODO : ...
+        //TODO : 구현 예정
+        requestRedraw();
     }
 
     function handleMouseDown(e:MouseEvent) {
@@ -145,6 +176,8 @@
                 note: n,
                 velocity: n.velocity
             }))
+
+            requestRedraw();
         }
     }
 
@@ -160,18 +193,19 @@
 
 
                     note.velocity = Math.min(127, Math.max(0, velocity + diff));
-
-                    drawSingleNote(note);
                 }
 
+                requestRedraw();
                 return ch
             })
         }
     }
 
     function handleMouseUp(e:MouseEvent) {
-
-        dragType = null;
+        if (dragType) {
+            dragType = null;
+            requestRedraw();
+        }
     }
 
     function setSelectedNotes(notes:Note[]) {
@@ -179,6 +213,7 @@
             ls = [...notes]
             return ls
         });
+        requestRedraw();
     }
 </script>
 
@@ -186,21 +221,16 @@
     <div id="block"></div>
     <canvas
             id="properties"
-
             width={canvasWidth}
             height="50"
-
-            style="width: {canvasWidth}px; height: 50px"
+            style="width: {canvasWidth}px; margin-left: {-marginLeft + 165}px; height: 50px"
             tabindex="0"
-
             bind:this={canvas}
-
             on:click={handleClick}
             on:mousedown={handleMouseDown}
             on:mousemove={handleMouseMove}
             on:mouseup={handleMouseUp}
             on:mouseleave={handleMouseUp}
-
             on:focus={() => focus = true}
             on:blur={() => focus = false}
     /> <!-- velocity -->
@@ -210,15 +240,10 @@
     #container {
         height: 50px;
         z-index: 8;
-
         padding-left: 290px;
-
         display: inline-flex;
-
         justify-content: space-between;
-
         position: fixed;
-
         left: 0;
         bottom: 0;
     }
@@ -226,20 +251,15 @@
     #block {
         width: 165px;
         height: 100%;
-
         display: inline-block;
         position: fixed;
-
         flex-shrink: 0;
-
         background: #999999;
     }
 
     #properties {
         height: 100%;
-
         margin-left: 165px;
-
-        display:inline-block;
+        display: inline-block;
     }
 </style>

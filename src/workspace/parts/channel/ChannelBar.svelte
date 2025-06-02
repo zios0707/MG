@@ -1,5 +1,5 @@
 <script>
-    import { channel } from '../../../store.js';
+    import { channel } from '../../../store.ts';
     import Channel from '../../../class/Channel.svelte.js';
     import ChannelComp from './Channel.svelte';
 
@@ -77,7 +77,7 @@
                         e.stopPropagation()
                         // e.currentTarget.parentElement.dispatchEvent(new DragEvent('dragover', event))
                     }}
-                    channel={value} iter={i} selected={$channel.trackId === value.trackId}
+                    channel={value} iter={i} selected={$channel?.trackId === value.trackId}
                     on:delete={deleteChannel} on:select={selectChannel} on:pick={pickChannel}
             ></ChannelComp>
         </div>
