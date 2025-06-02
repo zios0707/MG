@@ -12,6 +12,7 @@
 
     let canvas: HTMLCanvasElement;
     let ctx: CanvasRenderingContext2D;
+    let animationFrameId;
 
     const pitchNames = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
 
@@ -90,7 +91,7 @@
             needsRedraw = false;
         }
 
-        requestAnimationFrame(draw);
+        animationFrameId = requestAnimationFrame(draw);
     }
 
     // 다시 그리기를 요청하는 함수
@@ -144,6 +145,7 @@
         mounted = true;
 
         ctx=canvas.getContext('2d');
+        requestRedraw();
         draw();
 
         window.addEventListener('scroll', trackingScrollX)
@@ -152,6 +154,9 @@
 
         return () => {
             mounted = false;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
             window.removeEventListener('scroll', trackingScrollX);
             window.removeEventListener('keydown', handleKeyDown)
             window.removeEventListener('keyup', handleKeyUp)

@@ -14,6 +14,7 @@
     let ctx: CanvasRenderingContext2D;
     let marginLeft = baseMarginLeft;
     let mounted = false;
+    let animationFrameId;
 
     // 다시 그리기가 필요한지 추적하는 플래그
     let needsRedraw = true;
@@ -51,7 +52,7 @@
             needsRedraw = false;
         }
 
-        requestAnimationFrame(drawPlayBar);
+        animationFrameId = requestAnimationFrame(drawPlayBar);
     }
 
     // 다시 그리기를 요청하는 함수
@@ -169,6 +170,9 @@
         // 컴포넌트 언마운트 시 정리
         return () => {
             mounted = false;
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
             window.removeEventListener('scroll', updateMarginOnScroll);
             canvas.removeEventListener('mousedown', handleMouseDown);
             // 드래그 중 언마운트 시 document 이벤트 리스너도 제거
