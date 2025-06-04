@@ -3,7 +3,7 @@
     let loopMode = false;
 </script>
 
-<div id="loopSelector">
+<div id="loopSelectorTime">
     <div id="start" class="time">
         <div id="component">
             <div id="high" class="number">0</div>
@@ -31,7 +31,7 @@
 </div>
 
 <style>
-    #loopSelector {
+    #loopSelectorTime {
         height: 36px;
 
         display: flex;

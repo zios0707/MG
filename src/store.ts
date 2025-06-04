@@ -5,6 +5,7 @@ import Note from './class/Note.svelte.js';
 // 기본 상태 저장소
 export const midi = writable(false);
 export const brush = writable(false);
+export const loop = writable(false);
 export const isShiftOn = writable(false);
 export const selectedNotes = writable(/** @type {import('./class/Note.svelte.js').default[]} */ ([]));
 export const channel = writable(/** @type {Channel|null} */ (null)); // 채널 ID 저장소

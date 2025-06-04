@@ -8,7 +8,7 @@
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
     import FieldWithCanvas from './field/FieldWithCanvas.svelte';
-    import LoopStation from './loopStation/LoopStation.svelte';
+    import LoopSelector from './loopSelector/LoopSelector.svelte';
     import PlayBar from './navigation/PlayBar.svelte';
 
     onMount(() => {
@@ -33,7 +33,7 @@
         <Properties bind:canvasWidth={canvasWidth} />
         <Keyboard/>
         <FieldWithCanvas bind:canvasWidth={canvasWidth}/>
-        <LoopStation/>
+        <LoopSelector/>
     {/if}
 </div>
 
