@@ -129,7 +129,7 @@
         ctx.beginPath();
         ctx.moveTo(x + 4, y);
         ctx.lineTo(x + note.duration * cellWidth, y);
-        ctx.lineWidth = 1;
+        ctx.lineWidth = 2; // 노트 길이 선을 더 굵게 설정
         ctx.stroke();
 
         ctx.lineWidth = 1;
