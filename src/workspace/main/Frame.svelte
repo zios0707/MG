@@ -8,7 +8,7 @@
     import Navigation from './navigation/Navigation.svelte';
     import Properties from './properties/Properties.svelte';
     import FieldWithCanvas from './field/FieldWithCanvas.svelte';
-    import LoopStation from './loopStation/LoopStation.svelte';
+    import LoopSelector from './navigation/LoopSelector.svelte';
     import PlayBar from './navigation/PlayBar.svelte';
 
     onMount(() => {
@@ -30,10 +30,10 @@
     {#if $channel?.trackId !== undefined}
         <Navigation bind:canvasWidth={canvasWidth} />
         <PlayBar bind:canvasWidth={canvasWidth} />
+        <LoopSelector bind:canvasWidth={canvasWidth}/>
         <Properties bind:canvasWidth={canvasWidth} />
         <Keyboard/>
         <FieldWithCanvas bind:canvasWidth={canvasWidth}/>
-        <LoopStation/>
     {/if}
 </div>
 

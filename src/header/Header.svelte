@@ -2,7 +2,7 @@
     import { onMount } from 'svelte';
     import Bpm from './utils/Bpm.svelte';
     import Brush from './utils/Brush.svelte';
-    import LoopSelector from './utils/LoopSelector.svelte';
+    import LoopSelectorTime from './utils/LoopSelectorTime.svelte';
     import Midi from './utils/Midi.svelte';
     import Play from './utils/Play.svelte';
     import ProjectList from './utils/ProjectList.svelte';
@@ -51,7 +51,7 @@
 
     <div id="right">
         <ProjectList />
-        {#if width > 1170} <LoopSelector /> {/if}
+        {#if width > 1170} <LoopSelectorTime /> {/if}
     </div>
 </div>
 

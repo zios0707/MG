@@ -5,6 +5,7 @@
     const pitch = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].reverse();
 
     let keyboard;
+    let marginLeft;
 
     function isBlackNote(pitch) {
         return pitch.length === 2;
@@ -35,7 +36,7 @@
     onMount(() => {
         // keyboard tracking set
         function trackingX() {
-            keyboard.style.marginLeft = `${window.scrollX}px`;
+            marginLeft = `${window.scrollX}px`;
         }
 
         window.addEventListener('scroll', trackingX);
@@ -47,7 +48,7 @@
 
 </script>
 
-<div id="keyboard" bind:this={keyboard} on:click={playSound}>
+<div id="keyboard" bind:this={keyboard} on:click={playSound} style="margin-left: {marginLeft}">
     {#each piano as _, i}
         <div class="piano">
             <span id="rootTxt">

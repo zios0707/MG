@@ -100,7 +100,9 @@
     }
 
     function drawGrid(){
+        ctx.save();
         ctx.strokeStyle='#ccc';
+        ctx.lineWidth = 1;
         for(let r=0;r<=rows;r++){
             const y=r*cellHeight;
             ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(canvasWidth,y);ctx.stroke();
@@ -110,6 +112,7 @@
             const x=c*cellWidth;
             ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,totalHeight);ctx.stroke();
         }
+        ctx.restore();
     }
 
     function drawNotes(){
@@ -117,14 +120,26 @@
     }
 
     function drawSingleNote(note: Note) {
+        ctx.save();
         const x=note.time*cellWidth;
         const y=pitchToNumber(note.midi)*cellHeight;
         const w=note.duration*cellWidth;
         const h=cellHeight-2;
-        ctx.fillStyle=$selectedNotes.includes(note)?'#39c5bb':'rgba(255,255,255,0.5)';
+
+        if ($selectedNotes.includes(note)) {
+            ctx.fillStyle = '#39c5bb';
+        } else {
+            // velocity를 16진수 알파값으로 변환 (0-127 -> 00-7F)
+            const alphaHex = note.velocity.toString(16).padStart(2, '0');
+            // 16진수 알파값을 rgba에서 사용할 수 있는 소수점 형태로 변환 (00-7F -> 0-1)
+            const alpha = parseInt(alphaHex, 16) / 255;
+            ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+        }
         ctx.fillRect(x,y,w,h);
-        ctx.strokeStyle=$selectedNotes.includes(note)?'#007bff':'#333';
+        ctx.strokeStyle=$selectedNotes.includes(note)?'#007bff':'rgba(51, 51, 51, 0.75)';
+        ctx.lineWidth = 2; // 노트 윤곽선을 더 굵게 설정
         ctx.strokeRect(x,y,w,h);
+        ctx.restore();
     }
 
     function drawDrag() {
