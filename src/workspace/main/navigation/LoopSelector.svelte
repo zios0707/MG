@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { loop, tick, tickToPixel, pixelToTick, loopStart, loopEnd } from '../../../store.ts';
-    import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from '../navigation/constants.js';
+    import { loop, tick, tickToPixel, pixelToTick, loopStart, loopEnd, ticksPerBeat } from '../../../store.ts';
+    import { CELL_WIDTH, BAR_HEIGHT, BASE_MARGIN_LEFT } from './constants.js';
 
     // Export props
     export let canvasWidth;
@@ -10,7 +10,13 @@
     const cellWidth = CELL_WIDTH;
     const barHeight = BAR_HEIGHT;
     const baseMarginLeft = BASE_MARGIN_LEFT;
-    const loopSelectorHeight = Math.floor(barHeight * 0.4); // 30% - 40% of Navigation height
+    const loopSelectorHeight = 9; // 30% - 40% of Navigation height
+
+    // Helper function to snap tick value to quarter beat boundaries
+    function snapToQuarterBeat(tickValue) {
+        const quarterBeat = $ticksPerBeat / 4;
+        return Math.round(tickValue / quarterBeat) * quarterBeat;
+    }
 
     // State variables
     let mounted = false;
@@ -52,9 +58,11 @@
             ctx.clearRect(0, 0, canvasWidth, loopSelectorHeight);
 
             if ($loop) {
-                // Convert tick positions to pixels
-                const startX = tickToPixel($loopStart, cellWidth);
-                const endX = tickToPixel($loopEnd, cellWidth);
+                // Convert tick positions to pixels, ensuring they're snapped to quarter beat boundaries
+                const snappedStart = snapToQuarterBeat($loopStart);
+                const snappedEnd = snapToQuarterBeat($loopEnd);
+                const startX = tickToPixel(snappedStart, cellWidth);
+                const endX = tickToPixel(snappedEnd, cellWidth);
 
                 // Draw semi-transparent middle section
                 ctx.fillStyle = 'rgba(51, 204, 255, 0.3)';
@@ -82,8 +90,11 @@
         const x = e.clientX - rect.left;
 
         // Convert tick positions to pixels
-        const startX = tickToPixel($loopStart, cellWidth);
-        const endX = tickToPixel($loopEnd, cellWidth);
+        // Make sure we're using the snapped values for consistent UI
+        const snappedStart = snapToQuarterBeat($loopStart);
+        const snappedEnd = snapToQuarterBeat($loopEnd);
+        const startX = tickToPixel(snappedStart, cellWidth);
+        const endX = tickToPixel(snappedEnd, cellWidth);
 
         // Check if clicking on start handle
         if (Math.abs(x - startX) <= 10) {
@@ -100,8 +111,9 @@
             isDraggingMiddle = true;
             dragStartX = x;
             dragOffset = x - startX;
-            initialLoopStart = $loopStart;
-            initialLoopEnd = $loopEnd;
+            // Make sure we're using the snapped values for consistent movement
+            initialLoopStart = snappedStart;
+            initialLoopEnd = snappedEnd;
         }
 
         if (isDraggingStart || isDraggingEnd || isDraggingMiddle) {
@@ -119,31 +131,37 @@
 
         if (isDraggingStart) {
             const newStart = pixelToTick(x, cellWidth);
-            // Ensure start is less than end and not negative
-            loopStart.set(Math.max(0, Math.min(newStart, $loopEnd - 1)));
+            // Snap to quarter beat boundary and ensure start is less than end and not negative
+            const snappedStart = snapToQuarterBeat(newStart);
+            loopStart.set(Math.max(0, Math.min(snappedStart, $loopEnd - $ticksPerBeat/4)));
         } else if (isDraggingEnd) {
             const newEnd = pixelToTick(x, cellWidth);
-            // Ensure end is greater than start
-            loopEnd.set(Math.max($loopStart + 1, newEnd));
+            // Snap to quarter beat boundary and ensure end is greater than start
+            const snappedEnd = snapToQuarterBeat(newEnd);
+            loopEnd.set(Math.max($loopStart + $ticksPerBeat/4, snappedEnd));
         } else if (isDraggingMiddle) {
             const deltaX = x - dragStartX;
             const deltaTicks = pixelToTick(deltaX, cellWidth);
 
-            // Calculate new positions
-            let newStart = initialLoopStart + deltaTicks;
-            let newEnd = initialLoopEnd + deltaTicks;
+            // Calculate new positions and snap to quarter beat boundaries
+            let newStart = snapToQuarterBeat(initialLoopStart + deltaTicks);
+            let newEnd = snapToQuarterBeat(initialLoopEnd + deltaTicks);
 
             // Ensure we don't go below 0
             if (newStart < 0) {
-                const shift = -newStart;
                 newStart = 0;
-                newEnd = initialLoopEnd - initialLoopStart; // Maintain the same width
+                // Maintain the same width (in quarter beats)
+                const quarterBeatsWidth = Math.round((initialLoopEnd - initialLoopStart) / ($ticksPerBeat/4));
+                newEnd = newStart + (quarterBeatsWidth * ($ticksPerBeat/4));
             }
 
             // Ensure we don't go beyond canvas width
-            if (newEnd > pixelToTick(canvasWidth, cellWidth)) {
-                newEnd = pixelToTick(canvasWidth, cellWidth);
-                newStart = newEnd - (initialLoopEnd - initialLoopStart); // Maintain the same width
+            const maxTick = pixelToTick(canvasWidth, cellWidth);
+            if (newEnd > maxTick) {
+                newEnd = snapToQuarterBeat(maxTick);
+                // Maintain the same width (in quarter beats)
+                const quarterBeatsWidth = Math.round((initialLoopEnd - initialLoopStart) / ($ticksPerBeat/4));
+                newStart = Math.max(0, newEnd - (quarterBeatsWidth * ($ticksPerBeat/4)));
             }
 
             loopStart.set(newStart);
@@ -181,9 +199,9 @@
         canvas.width = canvasWidth;
         canvas.height = loopSelectorHeight;
 
-        // Ensure loopStart and loopEnd are exactly 0 and 16 (0.0.0 and 1.0.0)
-        loopStart.set(0);
-        loopEnd.set(16);
+        // Initialize loopStart and loopEnd to be snapped to quarter beat boundaries
+        loopStart.set(snapToQuarterBeat(0)); // Start at beat 0
+        loopEnd.set(snapToQuarterBeat(4));  // End at beat 4 (assuming 4 ticks per beat)
 
         requestRedraw();
         draw();
@@ -213,11 +231,11 @@
 
 <style>
     #loop-selector-container {
-        height: 12px; /* 40% of 30px Navigation height */
-        z-index: 3; /* Above Navigation (1) and PlayBar (2) */
+        top: 65px;
+        height: 15px;
+        z-index: 3;
         display: inline-block;
         position: fixed;
-        top: 30px; /* Bottom of Navigation */
         pointer-events: none; /* Initially transparent to events */
     }
 

@@ -4,6 +4,15 @@
     import * as Tone from 'tone';
 
     let synth;
+    let beforeTick = 0;
+
+    $: {
+        if ($isPlaying && beforeTick > $tick) {
+            play($tick, false)
+        }
+
+        beforeTick = $tick
+    }
 
     // BPM에 따른 시간 변환 유틸리티 함수
     function timeOnBpm(time) {
@@ -11,11 +20,11 @@
     }
 
     // 오디오 재생 함수
-    export function play(startTime = $tick) {
+    export function play(startTime = $tick, needCleanup = true) {
         if (!$channel) return;
 
         // 기존 synth 정리 (이 함수는 직접 호출해야 함 - 재생 시작 전에 필요)
-        cleanupSynth();
+        if (needCleanup) cleanupSynth();
 
         // isPlaying은 이제 storePlay에 의해 설정됨
         const now = Tone.now();

@@ -1,31 +1,55 @@
 <script>
+    import { tick, loop, loopStart, loopEnd, setPosition, timeSignature, ticksPerMeasure, ticksPerBeat  } from '../../store.ts';
 
-    let loopMode = false;
+    // Derived values for displaying time in bar.beat.sixteenth format
+    $: startTimeSignature = calculateTimeSignature($loopStart);
+    $: endTimeSignature = calculateTimeSignature($loopEnd);
+
+    // Function to calculate bar.beat.sixteenth from tick value
+    function calculateTimeSignature(tickValue) {
+        const totalTicks = Math.floor(tickValue);
+        const measure = Math.floor(totalTicks / $ticksPerMeasure);
+        const remainingTicks = totalTicks % $ticksPerMeasure;
+        const beat = Math.floor(remainingTicks / $ticksPerBeat);
+        const remainingSubTicks = remainingTicks % $ticksPerBeat;
+
+        return {
+            bar: measure,
+            beat: beat,
+            sixteenth: remainingSubTicks
+        };
+    }
+
+    // Toggle loop mode
+    function toggleLoop() {
+        loop.set(!$loop);
+        setPosition($tick);
+    }
 </script>
 
 <div id="loopSelectorTime">
     <div id="start" class="time">
         <div id="component">
-            <div id="high" class="number">0</div>
+            <div id="high" class="number">{startTimeSignature.bar}</div>
             <div class="dot">.</div>
-            <div id="mid" class="number">0</div>
+            <div id="mid" class="number">{startTimeSignature.beat}</div>
             <div class="dot">.</div>
-            <div id="low" class="number">0</div>
+            <div id="low" class="number">{startTimeSignature.sixteenth}</div>
         </div>
     </div>
     <div id="icon"
-         class:on={loopMode}
-         on:click={() => loopMode = !loopMode}
+         class:on={$loop}
+         on:click={toggleLoop}
     >
         <object type="image/svg+xml" data="/icons/qlementine-icons_loop-16.svg"></object>
     </div>
     <div id="end" class="time">
         <div id="component">
-            <div id="high" class="number">0</div>
+            <div id="high" class="number">{endTimeSignature.bar}</div>
             <div class="dot">.</div>
-            <div id="mid" class="number">0</div>
+            <div id="mid" class="number">{endTimeSignature.beat}</div>
             <div class="dot">.</div>
-            <div id="low" class="number">0</div>
+            <div id="low" class="number">{endTimeSignature.sixteenth}</div>
         </div>
     </div>
 </div>
