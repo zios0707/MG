@@ -7,7 +7,7 @@
     let beforeTick = 0;
 
     $: {
-        if ($isPlaying && beforeTick > $tick) {
+        if ($isPlaying && beforeTick > $tick + 0.95) { // loopSelector의 최소 범위는 1틱
             play($tick, false)
         }
 
