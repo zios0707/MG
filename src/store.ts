@@ -70,8 +70,6 @@ export function registerPauseCleanup(cleanupFn) {
 
 // 재생 시작 함수
 export function play(startTick = get(tick)) {
-  console.log(startTick)
-
   // 특정 지점부터 재생할 수 있도록 시작 시간 조정
   startTimestamp = performance.now() - (startTick * (60000 / get(bpm)));
   tick.set(startTick); // 시작 틱 설정
@@ -83,8 +81,6 @@ export function play(startTick = get(tick)) {
 
   isPlaying.set(true);
   updateTick();
-
-  console.log("정상 작동")
 }
 
 // 재생 중지 함수
