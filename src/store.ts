@@ -6,6 +6,8 @@ import Note from './class/Note.svelte.js';
 export const midi = writable(false);
 export const brush = writable(false);
 export const loop = writable(false);
+export const loopStart = writable(0); // Loop start time in ticks (0.0.0)
+export const loopEnd = writable(4); // Loop end time in ticks (0.1.0)
 export const isShiftOn = writable(false);
 export const selectedNotes = writable(/** @type {import('./class/Note.svelte.js').default[]} */ ([]));
 export const channel = writable(/** @type {Channel|null} */ (null)); // 채널 ID 저장소
@@ -49,6 +51,7 @@ export const timeSignature = derived(
 // 재생 제어 변수
 let startTimestamp = 0;
 let rafId;
+let playbackStartedInLoop = false;
 
 // pause가 호출될 때 실행될 정리 함수들을 저장하는 배열
 const pauseCleanupFunctions = [];
@@ -67,11 +70,21 @@ export function registerPauseCleanup(cleanupFn) {
 
 // 재생 시작 함수
 export function play(startTick = get(tick)) {
+  console.log(startTick)
+
   // 특정 지점부터 재생할 수 있도록 시작 시간 조정
   startTimestamp = performance.now() - (startTick * (60000 / get(bpm)));
   tick.set(startTick); // 시작 틱 설정
+
+  // 시작 틱이 루프 영역 내에 있는지 확인
+  const loopStartTick = get(loopStart);
+  const loopEndTick = get(loopEnd);
+  playbackStartedInLoop = get(loop) && startTick >= loopStartTick && startTick < loopEndTick;
+
   isPlaying.set(true);
   updateTick();
+
+  console.log("정상 작동")
 }
 
 // 재생 중지 함수
@@ -92,6 +105,12 @@ export function pause() {
 // 위치 설정 함수
 export function setPosition(newTick) {
   tick.set(newTick);
+
+  // 시작 틱이 루프 영역 내에 있는지 확인
+  const loopStartTick = get(loopStart);
+  const loopEndTick = get(loopEnd);
+  playbackStartedInLoop = get(loop) && newTick >= loopStartTick && newTick < loopEndTick;
+
   if (get(isPlaying)) {
     // 재생 중인 경우, 새 위치에서 다시 시작
     startTimestamp = performance.now() - (newTick * (60000 / get(bpm)));
@@ -107,7 +126,29 @@ function updateTick() {
     // 경과 시간(ms)을 틱으로 변환
     // 틱 = 경과 시간(ms) / (60000ms / BPM)
     const elapsed = now - startTimestamp;
-    const currentTick = elapsed / (60000 / currentBpm);
+    let currentTick = elapsed / (60000 / currentBpm);
+
+    // 루프 기능이 활성화되어 있고, 재생이 루프 영역 내에서 시작되었으며, 현재 틱이 루프 종료 지점을 넘었는지 확인
+    if (get(loop) && get(isPlaying) && playbackStartedInLoop && currentTick >= get(loopEnd)) {
+      // 루프 시작 지점으로 돌아가기
+      const loopStartTick = get(loopStart);
+
+      // 재생을 중지하고 모든 정리 함수 호출
+      isPlaying.set(false);
+      if (rafId) cancelAnimationFrame(rafId);
+
+      // 등록된 모든 정리 함수 호출
+      pauseCleanupFunctions.forEach(cleanupFn => {
+        try {
+          cleanupFn();
+        } catch (error) {
+          console.error('정리 함수 실행 중 오류:', error);
+        }
+      });
+
+      play(loopStartTick);
+      return; // play 함수가 새로운 updateTick 호출을 시작하므로 여기서 종료
+    }
 
     tick.set(currentTick);
     elapsedSeconds.set(elapsed / 1000);
