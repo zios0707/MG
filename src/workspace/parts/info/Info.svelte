@@ -3,6 +3,8 @@
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
 
+    let volume = 0;
+
     let rotation = tweened(0, { duration: 130, easing: cubicOut });
 
     let openList = false;
@@ -67,17 +69,15 @@
                   on:click={(e) => {
                       const rect = e.currentTarget.getBoundingClientRect();
                       const clickX = e.clientX - rect.left;
-                      const newVolume = Math.max(7, Math.min(120, Math.round((clickX / rect.width) * 127))) - 7;
-
-                      filled.style.width = `${newVolume}px`;
+                      volume = Math.max(7, Math.min(120, Math.round((clickX / rect.width) * 127))) - 7;
 
                       channel.update(chan => {
-                          chan.volume = Math.max(-60, Math.min(6, Math.round(newVolume / 114 * 66) - 60 ));
+                          chan.volume = Math.max(-60, Math.min(6, Math.round(volume / 114 * 66) - 60 ));
                           return chan;
                       });
                   }}
             >
-                <span id="filled" bind:this={filled}></span>
+                <span id="filled" style="width: {volume}px;" bind:this={filled}></span>
                 <span id="slider"></span>
             </span>
             <span id="volume">
