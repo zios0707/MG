@@ -7,6 +7,7 @@ const channelIds = new Set();
  * 오디오 채널을 나타내는 클래스
  */
 export default class Channel {
+    id = crypto.randomUUID();
     trackId = $state(this.getNextId());
     name = $state("# default track");
 
