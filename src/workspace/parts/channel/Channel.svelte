@@ -1,6 +1,7 @@
 <script>
     export let channel, iter, selected;
     import { onMount, createEventDispatcher } from 'svelte';
+    import { log, project } from '../../../store.ts';
 
     const dispatcher = createEventDispatcher();
 
@@ -47,7 +48,23 @@
         <button
                 id="mute"
                 class:on={channel?.mute}
-                on:click={() => channel && (channel.mute = !channel.mute)}
+                on:click={() => {
+                    if (channel) {
+                        const newMuteValue = !channel.mute;
+                        channel.mute = newMuteValue;
+
+                        // Log the update
+                        const thisLog = {
+                            oper: "UPDATE", 
+                            type: "TRACK",
+                            project: $project?.id, 
+                            track: channel.trackId, 
+                            note: null, 
+                            payload: { mute: newMuteValue }
+                        };
+                        log.update(ls => ls.concat(thisLog));
+                    }
+                }}
         >
             {#if channel?.mute}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-m-red.svg"></object>
@@ -58,9 +75,25 @@
         <button
                 id="solo"
                 class:on={channel?.solo}
-                on:click={() => channel && (channel.solo = !channel.solo)}
+                on:click={() => {
+                    if (channel) {
+                        const newSoloValue = !channel.solo;
+                        channel.solo = newSoloValue;
+
+                        // Log the update
+                        const thisLog = {
+                            oper: "UPDATE", 
+                            type: "TRACK",
+                            project: $project?.id, 
+                            track: channel.id,
+                            note: null, 
+                            payload: { solo: newSoloValue }
+                        };
+                        log.update(ls => ls.concat(thisLog));
+                    }
+                }}
         >
-    
+
             {#if channel?.solo}
                 <object type="image/svg+xml" data="/icons/mdi_alphabet-s-blue.svg"></object>
             {:else}

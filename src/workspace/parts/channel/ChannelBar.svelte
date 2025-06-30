@@ -1,13 +1,18 @@
 <script>
-    import { channel } from '../../../store.ts';
+    import { onMount } from 'svelte';
+    import { channel, log, project } from '../../../store.ts';
     import Channel from '../../../class/Channel.svelte.js';
     import ChannelComp from './Channel.svelte';
 
-    let channels = $state([new Channel()]); // @type { Channel[] }
+    let channels = $state([]); // @type { Channel[] }
     let pickedList = $state([]);
 
     function deleteChannel(event) {
-        channels.find(i => i.trackId === event.detail.value).deleteId()
+        const ch = channels.find(i => i.trackId === event.detail.value)
+        ch.deleteId()
+        const thisLog = {oper:'DELETE', type:'TRACK', project:$project.id, channel:ch.id}
+        log.update(ls => ls.concat(thisLog))
+
         if ($channel.trackId === event.detail.value) {
             $channel = {};
         }
@@ -56,6 +61,12 @@
         }, { offset: Number.NEGATIVE_INFINITY }).element
     }
 
+        onMount(() => {
+            const thisChan = new Channel()
+            channels.push(thisChan)
+            log.update(ls => ls.concat({oper:'CREATE', type:'TRACK', project:$project.id, track:thisChan.id}))
+    })
+
 </script>
 
 <div id="channels" on:dragover={(e) => {
@@ -85,7 +96,11 @@
 
     <button
             id="create"
-            on:click={() => channels = [...channels, new Channel()]}
+            on:click={() => {
+                const thisChan = new Channel()
+                channels.push(thisChan)
+                log.update(ls => ls.concat({oper:'CREATE', type:'TRACK', project:$project.id, track:thisChan.id}))
+            }}
     >
         <img src="/icons/mdi_plus-outline.svg" alt="plus icon" />
     </button>

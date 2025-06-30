@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import { channel, selectedNotes } from '../../../store.ts';
+    import {channel, selectedNotes, log, project} from '../../../store.ts';
     import Note from '../../../class/Note.svelte.js';
     export let canvasWidth
 
@@ -255,18 +255,24 @@
             for (const ctx of originalContexts){
                 const {note, time, duration, row} = ctx;
                 const dx=(x-anchorX) / cellWidth;
+                const thisLog = {oper:"UPDATE", type:"NOTE", project:$project.id, track:$channel.id, note:note.id, payload:{}};
                 
                 if (dragType === 'move') {
                     const dy=(y-anchorY) / cellHeight;
                     note.time=Math.max(0,time+dx);
                     const newRow=Math.max(0,Math.min(rows,row+Math.round(dy)));
                     note.midi=numberToPitch(newRow);
+                    thisLog.payload = {time:note.time, midi:note.midi};
                 } else if(dragType === 'resize-right'){
                     note.duration = Math.max(0.1, dx + duration);
+                    thisLog.payload = {duration:note.duration};
                 } else if(dragType === 'resize-left'){
                     note.time=Math.max(0, Math.min(time+dx, time+duration - 0.1));
                     if (note.time !== 0) note.duration=Math.max(0.1,duration-dx);
+                    thisLog.payload = {time:note.time, duration:note.duration};
                 }
+
+                log.update(ls=>ls.concat(thisLog));
             }
             requestRedraw();
             return ch;
@@ -307,15 +313,21 @@
         const {x,y}=getMousePos(e);
         const idx=hitTest(x,y);
 
+        console.log($project.id, $channel.id)
+        const thisLog = {oper:"", type:"NOTE", project:$project.id, track:$channel.id, note:crypto.randomUUID(), payload:{}};
+
 
         // 만져지지 않았으니 새로 생성
         if (idx === -1) {
+            thisLog.oper="CREATE";
 
             const dx=x/cellWidth;
             const dy=y/cellHeight;
 
             const newNote = new Note(Math.max(0,dx - 0.25), 0.5, numberToPitch(Math.max(0,Math.min(rows,Math.round(dy - 0.5)))))
 
+            thisLog.note = newNote.id;
+            thisLog.payload = {time:newNote.time, midi:newNote.midi, duration:newNote.duration, velocity:newNote.velocity};
             channel.update((ch) => {
                 ch.notes.push(newNote);
 
@@ -325,6 +337,9 @@
             requestRedraw();
             setSelectedNotes([newNote])
         }else {
+            thisLog.oper="DELETE";
+            thisLog.note = $channel.notes[idx].id;
+
             channel.update((ch) => {
                 ch.notes.splice(idx, 1);
 
@@ -333,6 +348,8 @@
 
             requestRedraw();
         }
+
+        log.update(ls=>ls.concat(thisLog));
     }
 
 
@@ -359,6 +376,8 @@
                 channel.update((ch) => {
                     $selectedNotes.forEach((note) => {
                         ch.notes.splice(ch.notes.indexOf(note), 1);
+
+                        log.update(ls=>ls.concat({oper:"DELETE", type:"NOTE", project:$project.id, track:$channel.id, note:note.id, payload:{}}));
                     })
 
                     return ch
