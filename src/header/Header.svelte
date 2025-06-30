@@ -1,5 +1,6 @@
 <script>
     import { onMount } from 'svelte';
+    import { authStatus, AuthStatus } from "../store.ts";
     import Bpm from './utils/Bpm.svelte';
     import Brush from './utils/Brush.svelte';
     import LoopSelectorTime from './utils/LoopSelectorTime.svelte';
@@ -8,7 +9,7 @@
     import ProjectList from './utils/ProjectList.svelte';
     import TimeSignature from './utils/TimeSignature.svelte';
 
-    let user = true;
+    let user = false;
 
     // 화면 변경 감지
     let width = 0;
@@ -37,13 +38,13 @@
 
     {#if width > 380}
         {#if user}
-            <div id="myPage">
+            <div id="myPage" on:click={$authStatus = AuthStatus.MY_PAGE}>
                 <div id="icon">
                     <object type="image/svg+xml" data="/icons/mdi_home.svg"></object>
                 </div>
             </div>
         {:else}
-            <div id="login">
+            <div id="login" on:click={$authStatus = AuthStatus.LOGIN}>
                 로그인
             </div>
         {/if}

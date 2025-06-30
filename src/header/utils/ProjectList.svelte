@@ -1,11 +1,41 @@
-<script>
+<script lang="ts">
+    import { onMount } from 'svelte';
+    import { project, projectList, user, log } from "../../store.ts";
     import { tweened } from 'svelte/motion';
     import { cubicOut } from 'svelte/easing';
+    import Project from "../../class/Project.svelte";
+
+    $: if ($user) {
+        fetch('http://localhost:8081/projects', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                accountId: $user.accountId,
+                password:  $user.password
+            })
+        })
+            .then(async res => {
+                if (!res.ok) throw new Error(await res.text());
+                return res.json();
+            })
+            .then(data => {
+                // projects 필드 안에 배열이 들어있으므로
+                const rawList = Array.isArray(data.projects) ? data.projects : [];
+                projectList.set(rawList.map(Project.fromJson));
+            })
+            .catch(err => {
+                console.error('fetch error', err);
+            });
+    }else {
+        $project = new Project();
+        log.update(ls => ls.concat(
+            {oper:"CREATE", type:"PROJECT", project:$project.id}
+        ))
+    }
 
     let rotation = tweened(0, { duration: 130, easing: cubicOut });
 
     let isAuthed = true;
-    let projectList = null;
 
     let openList = false;
     function toggleList() {
@@ -15,24 +45,9 @@
         openList = !openList;
     }
 
-    let projectList1 = [
-        {
-            name: "untitled",
-            id: "00000000-0000-0000-0000-000000000000"
-        },
-        {
-            name: "projectasdas1",
-            id: "00000000-0000-0000-0000-000000000000"
-        },
-        {
-            name: "hello?",
-            id: "00000000-0000-0000-0000-000000000000"
-        },
-        {
-            name: "veryLOOOOOOONG",
-            id: "00000000-0000-0000-0000-000000000000"
-        }
-    ];
+    onMount(() => {
+
+    })
 
 </script>
 
@@ -51,11 +66,11 @@
         </div>
         {#if openList}
             <div id="list">
-                {#each projectList1 as project}
-                    <div class="block" data-id={project.id}
+                {#each projectList as thisProject}
+                    <div class="block" data-id={thisProject.id}
                          on:click={toggleList}
                     >
-                        {project.name}
+                        {thisProject.name}
                     </div>
                 {/each}
             </div>

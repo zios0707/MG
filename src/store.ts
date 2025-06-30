@@ -1,6 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
 import Channel from './class/Channel.svelte.js';
 import Note from './class/Note.svelte.js';
+import Project from './class/Project.svelte.js';
 
 // 기본 상태 저장소
 export const midi = writable(false);
@@ -11,6 +12,18 @@ export const loopEnd = writable(4); // Loop end time in ticks (0.1.0)
 export const isShiftOn = writable(false);
 export const selectedNotes = writable(/** @type {import('./class/Note.svelte.js').default[]} */ ([]));
 export const channel = writable(/** @type {Channel|null} */ (null)); // 채널 ID 저장소
+export const AuthStatus = {
+  NONE : 0,
+  SIGNUP : 1,
+  MY_PAGE : 2,
+  LOGIN : 3
+}
+export const authStatus = writable(AuthStatus.NONE);
+export const user = writable(/** @type {{accountId:string}|null} */ (null));
+export const isLoading = writable(false); // Loading state for API requests
+export const log = writable(/** @type {{oper:string,type:string,project:string,track:string,note:number,payload:{}}.default[]} */ ([]));
+export const project = writable(/** @type {Project|null} */ (null))
+export const projectList = writable(/** @type {Project[]} */ ([]));
 
 // 재생 관련 저장소
 export const isPlaying = writable(false);
